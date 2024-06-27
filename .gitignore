@@ -24,3 +24,6 @@ back-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# husky
+package-lock.json
