@@ -14,5 +14,11 @@ jobs:
         with:
           packages: elixir erlang-dev erlang-xmerl
           version: 1.0
+      - name: Install dependencies
+        run: |
+          mix local.hex --force
+          mix deps.get
+      - name: Check coding style
+        run: mix format --check-formatted
       - name: Run tests
         run: mix test
