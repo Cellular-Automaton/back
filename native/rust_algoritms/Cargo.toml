@@ -1,0 +1,13 @@
+[package]
+name = "rust_algoritms"
+version = "0.1.0"
+authors = []
+edition = "2021"
+
+[lib]
+name = "rust_algoritms"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+rustler = { version = "0.33.0", features = ["nif_version_2_16"] }
