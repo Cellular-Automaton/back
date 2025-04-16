@@ -8,7 +8,14 @@ defmodule Back.UsersTest do
 
     import Back.UsersFixtures
 
-    @invalid_attrs %{username: nil, user_id: nil, email: nil, phone: nil, created_at: nil, verified: nil}
+    @invalid_attrs %{
+      username: nil,
+      user_id: nil,
+      email: nil,
+      phone: nil,
+      created_at: nil,
+      verified: nil
+    }
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,7 +28,14 @@ defmodule Back.UsersTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{username: "some username", user_id: "some user_id", email: "some email", phone: "some phone", created_at: "some created_at", verified: true}
+      valid_attrs = %{
+        username: "some username",
+        user_id: "some user_id",
+        email: "some email",
+        phone: "some phone",
+        created_at: "some created_at",
+        verified: true
+      }
 
       assert {:ok, %User{} = user} = Users.create_user(valid_attrs)
       assert user.username == "some username"
@@ -38,7 +52,15 @@ defmodule Back.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{username: "some updated username", user_id: "some updated user_id", email: "some updated email", phone: "some updated phone", created_at: "some updated created_at", verified: false}
+
+      update_attrs = %{
+        username: "some updated username",
+        user_id: "some updated user_id",
+        email: "some updated email",
+        phone: "some updated phone",
+        created_at: "some updated created_at",
+        verified: false
+      }
 
       assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
       assert user.username == "some updated username"
@@ -72,7 +94,14 @@ defmodule Back.UsersTest do
 
     import Back.UsersFixtures
 
-    @invalid_attrs %{username: nil, user_id: nil, email: nil, phone: nil, created_at: nil, verified: nil}
+    @invalid_attrs %{
+      username: nil,
+      user_id: nil,
+      email: nil,
+      phone: nil,
+      created_at: nil,
+      verified: nil
+    }
 
     test "list_user/0 returns all user" do
       user = user_fixture()
@@ -85,7 +114,14 @@ defmodule Back.UsersTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{username: "some username", user_id: "some user_id", email: "some email", phone: "some phone", created_at: "some created_at", verified: true}
+      valid_attrs = %{
+        username: "some username",
+        user_id: "some user_id",
+        email: "some email",
+        phone: "some phone",
+        created_at: "some created_at",
+        verified: true
+      }
 
       assert {:ok, %User{} = user} = Users.create_user(valid_attrs)
       assert user.username == "some username"
@@ -102,7 +138,15 @@ defmodule Back.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{username: "some updated username", user_id: "some updated user_id", email: "some updated email", phone: "some updated phone", created_at: "some updated created_at", verified: false}
+
+      update_attrs = %{
+        username: "some updated username",
+        user_id: "some updated user_id",
+        email: "some updated email",
+        phone: "some updated phone",
+        created_at: "some updated created_at",
+        verified: false
+      }
 
       assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
       assert user.username == "some updated username"
@@ -149,7 +193,11 @@ defmodule Back.UsersTest do
     end
 
     test "create_blocked/1 with valid data creates a blocked" do
-      valid_attrs = %{blocked_id: "some blocked_id", time_unblock: ~N[2025-04-15 18:02:00], blocked_at: ~N[2025-04-15 18:02:00]}
+      valid_attrs = %{
+        blocked_id: "some blocked_id",
+        time_unblock: ~N[2025-04-15 18:02:00],
+        blocked_at: ~N[2025-04-15 18:02:00]
+      }
 
       assert {:ok, %Blocked{} = blocked} = Users.create_blocked(valid_attrs)
       assert blocked.blocked_id == "some blocked_id"
@@ -163,7 +211,12 @@ defmodule Back.UsersTest do
 
     test "update_blocked/2 with valid data updates the blocked" do
       blocked = blocked_fixture()
-      update_attrs = %{blocked_id: "some updated blocked_id", time_unblock: ~N[2025-04-16 18:02:00], blocked_at: ~N[2025-04-16 18:02:00]}
+
+      update_attrs = %{
+        blocked_id: "some updated blocked_id",
+        time_unblock: ~N[2025-04-16 18:02:00],
+        blocked_at: ~N[2025-04-16 18:02:00]
+      }
 
       assert {:ok, %Blocked{} = blocked} = Users.update_blocked(blocked, update_attrs)
       assert blocked.blocked_id == "some updated blocked_id"

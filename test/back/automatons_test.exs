@@ -21,7 +21,12 @@ defmodule Back.AutomatonsTest do
     end
 
     test "create_automaton/1 with valid data creates a automaton" do
-      valid_attrs = %{name: "some name", description: "some description", automaton_id: "some automaton_id", contents: "some contents"}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        automaton_id: "some automaton_id",
+        contents: "some contents"
+      }
 
       assert {:ok, %Automaton{} = automaton} = Automatons.create_automaton(valid_attrs)
       assert automaton.name == "some name"
@@ -36,9 +41,17 @@ defmodule Back.AutomatonsTest do
 
     test "update_automaton/2 with valid data updates the automaton" do
       automaton = automaton_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", automaton_id: "some updated automaton_id", contents: "some updated contents"}
 
-      assert {:ok, %Automaton{} = automaton} = Automatons.update_automaton(automaton, update_attrs)
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        automaton_id: "some updated automaton_id",
+        contents: "some updated contents"
+      }
+
+      assert {:ok, %Automaton{} = automaton} =
+               Automatons.update_automaton(automaton, update_attrs)
+
       assert automaton.name == "some updated name"
       assert automaton.description == "some updated description"
       assert automaton.automaton_id == "some updated automaton_id"

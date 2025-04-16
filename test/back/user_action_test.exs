@@ -21,7 +21,11 @@ defmodule Back.UserActionTest do
     end
 
     test "create_blocked/1 with valid data creates a blocked" do
-      valid_attrs = %{blocked_id: "some blocked_id", time_unblock: ~N[2025-04-15 18:04:00], blocked_at: ~N[2025-04-15 18:04:00]}
+      valid_attrs = %{
+        blocked_id: "some blocked_id",
+        time_unblock: ~N[2025-04-15 18:04:00],
+        blocked_at: ~N[2025-04-15 18:04:00]
+      }
 
       assert {:ok, %Blocked{} = blocked} = UserAction.create_blocked(valid_attrs)
       assert blocked.blocked_id == "some blocked_id"
@@ -35,7 +39,12 @@ defmodule Back.UserActionTest do
 
     test "update_blocked/2 with valid data updates the blocked" do
       blocked = blocked_fixture()
-      update_attrs = %{blocked_id: "some updated blocked_id", time_unblock: ~N[2025-04-16 18:04:00], blocked_at: ~N[2025-04-16 18:04:00]}
+
+      update_attrs = %{
+        blocked_id: "some updated blocked_id",
+        time_unblock: ~N[2025-04-16 18:04:00],
+        blocked_at: ~N[2025-04-16 18:04:00]
+      }
 
       assert {:ok, %Blocked{} = blocked} = UserAction.update_blocked(blocked, update_attrs)
       assert blocked.blocked_id == "some updated blocked_id"

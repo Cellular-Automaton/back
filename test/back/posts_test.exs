@@ -8,7 +8,16 @@ defmodule Back.PostsTest do
 
     import Back.PostsFixtures
 
-    @invalid_attrs %{title: nil, post_id: nil, edited: nil, contents: nil, posted_by: nil, viewed_by: nil, liked_by: nil, disliked_by: nil}
+    @invalid_attrs %{
+      title: nil,
+      post_id: nil,
+      edited: nil,
+      contents: nil,
+      posted_by: nil,
+      viewed_by: nil,
+      liked_by: nil,
+      disliked_by: nil
+    }
 
     test "list_post/0 returns all post" do
       post = post_fixture()
@@ -21,7 +30,16 @@ defmodule Back.PostsTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{title: "some title", post_id: "some post_id", edited: true, contents: "some contents", posted_by: "some posted_by", viewed_by: "some viewed_by", liked_by: "some liked_by", disliked_by: "some disliked_by"}
+      valid_attrs = %{
+        title: "some title",
+        post_id: "some post_id",
+        edited: true,
+        contents: "some contents",
+        posted_by: "some posted_by",
+        viewed_by: "some viewed_by",
+        liked_by: "some liked_by",
+        disliked_by: "some disliked_by"
+      }
 
       assert {:ok, %Post{} = post} = Posts.create_post(valid_attrs)
       assert post.title == "some title"
@@ -40,7 +58,17 @@ defmodule Back.PostsTest do
 
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
-      update_attrs = %{title: "some updated title", post_id: "some updated post_id", edited: false, contents: "some updated contents", posted_by: "some updated posted_by", viewed_by: "some updated viewed_by", liked_by: "some updated liked_by", disliked_by: "some updated disliked_by"}
+
+      update_attrs = %{
+        title: "some updated title",
+        post_id: "some updated post_id",
+        edited: false,
+        contents: "some updated contents",
+        posted_by: "some updated posted_by",
+        viewed_by: "some updated viewed_by",
+        liked_by: "some updated liked_by",
+        disliked_by: "some updated disliked_by"
+      }
 
       assert {:ok, %Post{} = post} = Posts.update_post(post, update_attrs)
       assert post.title == "some updated title"
@@ -89,7 +117,12 @@ defmodule Back.PostsTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{title: "some title", post_id: "some post_id", edited: true, contents: "some contents"}
+      valid_attrs = %{
+        title: "some title",
+        post_id: "some post_id",
+        edited: true,
+        contents: "some contents"
+      }
 
       assert {:ok, %Post{} = post} = Posts.create_post(valid_attrs)
       assert post.title == "some title"
@@ -104,7 +137,13 @@ defmodule Back.PostsTest do
 
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
-      update_attrs = %{title: "some updated title", post_id: "some updated post_id", edited: false, contents: "some updated contents"}
+
+      update_attrs = %{
+        title: "some updated title",
+        post_id: "some updated post_id",
+        edited: false,
+        contents: "some updated contents"
+      }
 
       assert {:ok, %Post{} = post} = Posts.update_post(post, update_attrs)
       assert post.title == "some updated title"

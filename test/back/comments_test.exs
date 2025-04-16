@@ -35,7 +35,12 @@ defmodule Back.CommentsTest do
 
     test "update_comment/2 with valid data updates the comment" do
       comment = comment_fixture()
-      update_attrs = %{comment_id: "some updated comment_id", edited: false, contents: "some updated contents"}
+
+      update_attrs = %{
+        comment_id: "some updated comment_id",
+        edited: false,
+        contents: "some updated contents"
+      }
 
       assert {:ok, %Comment{} = comment} = Comments.update_comment(comment, update_attrs)
       assert comment.comment_id == "some updated comment_id"

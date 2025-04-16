@@ -55,7 +55,10 @@ defmodule BackWeb.AutomatonControllerTest do
   describe "update automaton" do
     setup [:create_automaton]
 
-    test "renders automaton when data is valid", %{conn: conn, automaton: %Automaton{id: id} = automaton} do
+    test "renders automaton when data is valid", %{
+      conn: conn,
+      automaton: %Automaton{id: id} = automaton
+    } do
       conn = put(conn, ~p"/api/automaton/#{automaton}", automaton: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

@@ -5,12 +5,8 @@ defmodule BackWeb.FavoriteControllerTest do
 
   alias Back.Favorites.Favorite
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BackWeb.FavoriteControllerTest do
   describe "update favorite" do
     setup [:create_favorite]
 
-    test "renders favorite when data is valid", %{conn: conn, favorite: %Favorite{id: id} = favorite} do
+    test "renders favorite when data is valid", %{
+      conn: conn,
+      favorite: %Favorite{id: id} = favorite
+    } do
       conn = put(conn, ~p"/api/favorite/#{favorite}", favorite: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

@@ -21,7 +21,12 @@ defmodule Back.AutomatonTest do
     end
 
     test "create_posts/1 with valid data creates a posts" do
-      valid_attrs = %{name: "some name", description: "some description", automaton_id: "some automaton_id", contents: "some contents"}
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        automaton_id: "some automaton_id",
+        contents: "some contents"
+      }
 
       assert {:ok, %Posts{} = posts} = Automaton.create_posts(valid_attrs)
       assert posts.name == "some name"
@@ -36,7 +41,13 @@ defmodule Back.AutomatonTest do
 
     test "update_posts/2 with valid data updates the posts" do
       posts = posts_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", automaton_id: "some updated automaton_id", contents: "some updated contents"}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        automaton_id: "some updated automaton_id",
+        contents: "some updated contents"
+      }
 
       assert {:ok, %Posts{} = posts} = Automaton.update_posts(posts, update_attrs)
       assert posts.name == "some updated name"

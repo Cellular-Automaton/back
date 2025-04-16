@@ -21,7 +21,14 @@ defmodule BackWeb.UserControllerTest do
     created_at: "some updated created_at",
     verified: false
   }
-  @invalid_attrs %{username: nil, user_id: nil, email: nil, phone: nil, created_at: nil, verified: nil}
+  @invalid_attrs %{
+    username: nil,
+    user_id: nil,
+    email: nil,
+    phone: nil,
+    created_at: nil,
+    verified: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

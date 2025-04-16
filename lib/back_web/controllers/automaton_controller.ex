@@ -28,7 +28,8 @@ defmodule BackWeb.AutomatonController do
   def update(conn, %{"id" => id, "automaton" => automaton_params}) do
     automaton = Automatons.get_automaton!(id)
 
-    with {:ok, %Automaton{} = automaton} <- Automatons.update_automaton(automaton, automaton_params) do
+    with {:ok, %Automaton{} = automaton} <-
+           Automatons.update_automaton(automaton, automaton_params) do
       render(conn, :show, automaton: automaton)
     end
   end
