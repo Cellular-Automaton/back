@@ -10,7 +10,12 @@ defmodule Back.FavoritesFixtures do
   def favorite_fixture(attrs \\ %{}) do
     {:ok, favorite} =
       attrs
-      |> Enum.into(%{})
+      |> Enum.into(
+        %{
+          # user_id: "some user_id",
+          # automaton_id: "some automaton_id"
+        }
+      )
       |> Back.Favorites.create_favorite()
 
     favorite

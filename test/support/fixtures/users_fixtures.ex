@@ -23,19 +23,16 @@ defmodule Back.UsersFixtures do
     user
   end
 
-  @doc """
-  Generate a blocked.
-  """
-  def blocked_fixture(attrs \\ %{}) do
-    {:ok, blocked} =
-      attrs
-      |> Enum.into(%{
-        blocked_at: ~N[2025-04-15 18:02:00],
-        blocked_id: "some blocked_id",
-        time_unblock: ~N[2025-04-15 18:02:00]
-      })
-      |> Back.Users.create_blocked()
+  # def blocked_fixture(attrs \\ %{}) do
+  #   {:ok, blocked} =
+  #     attrs
+  #     |> Enum.into(%{
+  #       blocked_at: ~N[2025-04-15 18:02:00],
+  #       blocked_id: "some blocked_id",
+  #       time_unblock: ~N[2025-04-15 18:02:00]
+  #     })
+  #     |> Back.Users.create_blocked()
 
-    blocked
-  end
+  #   blocked
+  # end
 end
