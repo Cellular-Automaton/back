@@ -16,9 +16,10 @@ jobs:
           version: 1.0
       - name: Install dependencies
         run: |
-          # mix local.hex --force
-          # mix deps.get
-          mix setup # should install dependencies and set migrations
+          mix local.hex --force # needed to get phoenix
+          mix local.rebar --force # for telemetry
+          mix deps.get
+          # mix setup # should install dependencies and set migrations
       - name: Check coding style
         run: mix format --check-formatted
       - name: Run tests
