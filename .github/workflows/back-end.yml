@@ -10,11 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: install necessary packages
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "27"
+          elixir-version: "1.18"
+      - name: Install dependencies
         run: |
-          sudo add-apt-repository ppa:rabbitmq/rabbitmq-erlang
-          sudo apt-get update -qq
-          sudo apt-get install -y elixir erlang-dev erlang-xmerl
           elixir --version
+          mix local.hex --force # needed to get phoenix
+          mix local.rebar --force # for telemetry
+          mix deps.get
+          # mix setup # should install dependencies and set migrations
+      - name: Check coding style
+        run: mix format --check-formatted
       - name: Run tests
         run: mix test

@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS "favorite";
+DROP TABLE IF EXISTS "blocked";
+DROP TABLE IF EXISTS "automaton";
+DROP TABLE IF EXISTS "comment";
+DROP TABLE IF EXISTS "post";
+DROP TABLE IF EXISTS "user";
+DROP TYPE IF EXISTS "user_role";
