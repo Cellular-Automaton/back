@@ -17,7 +17,6 @@ defmodule BackWeb.UserJSON do
 
   defp data(%User{} = user) do
     %{
-      id: user.id,
       user_id: user.user_id,
       username: user.username,
       email: user.email,
