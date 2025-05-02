@@ -7,17 +7,20 @@ defmodule Back.Users.User do
   schema "user" do
     field :username, :string
     field :email, :string
+    field :password, :string
     field :phone, :string
-    field :created_at, :string
+    field :created_at, :utc_datetime
     field :verified, :boolean, default: false
+    field :user_role, :string
 
-    timestamps(type: :utc_datetime)
+    timestamps()
   end
 
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :phone, :created_at, :verified])
-    |> validate_required([:username, :email, :phone, :created_at, :verified])
+    |> cast(attrs, [:user_id, :username, :email, :phone, :verified, :user_role, :password])
+    |> validate_required([:username, :email, :user_role, :password])
+    |> validate_inclusion(:user_role, ~w(admin developer user))
   end
 end

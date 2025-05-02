@@ -19,6 +19,8 @@ defmodule BackWeb.UserJSON do
     %{
       user_id: user.user_id,
       username: user.username,
+      # password: user.password,
+      user_role: user.user_role,
       email: user.email,
       phone: user.phone,
       created_at: user.created_at,

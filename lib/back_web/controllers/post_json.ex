@@ -17,7 +17,6 @@ defmodule BackWeb.PostJSON do
 
   defp data(%Post{} = post) do
     %{
-      id: post.id,
       post_id: post.post_id,
       edited: post.edited,
       title: post.title,

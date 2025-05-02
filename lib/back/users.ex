@@ -35,7 +35,7 @@ defmodule Back.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(user_id), do: Repo.get!(User, user_id)
 
   @doc """
   Creates a user.
@@ -50,6 +50,8 @@ defmodule Back.Users do
 
   """
   def create_user(attrs \\ %{}) do
+    IO.inspect(attrs, label: "Creating user with attrs")
+
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
