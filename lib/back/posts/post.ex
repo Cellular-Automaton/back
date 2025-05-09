@@ -8,9 +8,6 @@ defmodule Back.Posts.Post do
     field :edited, :boolean, default: false
     field :contents, :string
     field :posted_by, :id
-    field :viewed_by, :id
-    field :liked_by, :id
-    field :disliked_by, :id
 
     timestamps(type: :utc_datetime)
   end
