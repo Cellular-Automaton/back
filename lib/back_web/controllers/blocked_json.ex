@@ -17,7 +17,6 @@ defmodule BackWeb.BlockedJSON do
 
   defp data(%Blocked{} = blocked) do
     %{
-      id: blocked.id,
       blocked_id: blocked.blocked_id,
       time_unblock: blocked.time_unblock,
       blocked_at: blocked.blocked_at

@@ -17,7 +17,6 @@ defmodule BackWeb.AutomatonJSON do
 
   defp data(%Automaton{} = automaton) do
     %{
-      id: automaton.id,
       automaton_id: automaton.automaton_id,
       contents: automaton.contents,
       name: automaton.name,

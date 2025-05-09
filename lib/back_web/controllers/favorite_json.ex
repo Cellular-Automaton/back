@@ -15,9 +15,7 @@ defmodule BackWeb.FavoriteJSON do
     %{data: data(favorite)}
   end
 
-  defp data(%Favorite{} = favorite) do
-    %{
-      id: favorite.id
-    }
+  defp data(%Favorite{} = _favorite) do
+    %{}
   end
 end

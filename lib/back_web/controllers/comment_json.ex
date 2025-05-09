@@ -17,7 +17,6 @@ defmodule BackWeb.CommentJSON do
 
   defp data(%Comment{} = comment) do
     %{
-      id: comment.id,
       comment_id: comment.comment_id,
       edited: comment.edited,
       contents: comment.contents
