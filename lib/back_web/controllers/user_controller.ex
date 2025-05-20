@@ -12,11 +12,7 @@ defmodule BackWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    IO.inspect(user_params, label: "User params")
-
     with {:ok, %User{} = user} <- Users.create_user(user_params) do
-      IO.inspect(user, label: "Created user")
-
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/user/#{user.user_id}")

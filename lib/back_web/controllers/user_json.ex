@@ -19,7 +19,7 @@ defmodule BackWeb.UserJSON do
     %{
       user_id: user.user_id,
       username: user.username,
-      # password: user.password,
+      # password: user.password, # NOTE: shouldn't be available for public data (or maybe crypted)
       user_role: user.user_role,
       email: user.email,
       phone: user.phone,
