@@ -12,7 +12,8 @@ defmodule BackWeb.AutomatonCommentsController do
   end
 
   def create(conn, %{"automaton_comments" => automaton_comments_params}) do
-    with {:ok, %AutomatonComments{} = automaton_comments} <- AutomatonsComments.create_automaton_comments(automaton_comments_params) do
+    with {:ok, %AutomatonComments{} = automaton_comments} <-
+           AutomatonsComments.create_automaton_comments(automaton_comments_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/automaton_comment/#{automaton_comments}")
@@ -28,7 +29,11 @@ defmodule BackWeb.AutomatonCommentsController do
   def update(conn, %{"id" => id, "automaton_comments" => automaton_comments_params}) do
     automaton_comments = AutomatonsComments.get_automaton_comments!(id)
 
-    with {:ok, %AutomatonComments{} = automaton_comments} <- AutomatonsComments.update_automaton_comments(automaton_comments, automaton_comments_params) do
+    with {:ok, %AutomatonComments{} = automaton_comments} <-
+           AutomatonsComments.update_automaton_comments(
+             automaton_comments,
+             automaton_comments_params
+           ) do
       render(conn, :show, automaton_comments: automaton_comments)
     end
   end
@@ -36,7 +41,8 @@ defmodule BackWeb.AutomatonCommentsController do
   def delete(conn, %{"id" => id}) do
     automaton_comments = AutomatonsComments.get_automaton_comments!(id)
 
-    with {:ok, %AutomatonComments{}} <- AutomatonsComments.delete_automaton_comments(automaton_comments) do
+    with {:ok, %AutomatonComments{}} <-
+           AutomatonsComments.delete_automaton_comments(automaton_comments) do
       send_resp(conn, :no_content, "")
     end
   end

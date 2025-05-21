@@ -49,8 +49,15 @@ defmodule BackWeb.AutomatonCommentsControllerTest do
   describe "update automaton_comments" do
     setup [:create_automaton_comments]
 
-    test "renders automaton_comments when data is valid", %{conn: conn, automaton_comments: %AutomatonComments{id: id} = automaton_comments} do
-      conn = put(conn, ~p"/api/automaton_comment/#{automaton_comments}", automaton_comments: @update_attrs)
+    test "renders automaton_comments when data is valid", %{
+      conn: conn,
+      automaton_comments: %AutomatonComments{id: id} = automaton_comments
+    } do
+      conn =
+        put(conn, ~p"/api/automaton_comment/#{automaton_comments}",
+          automaton_comments: @update_attrs
+        )
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, ~p"/api/automaton_comment/#{id}")
@@ -62,8 +69,15 @@ defmodule BackWeb.AutomatonCommentsControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn, automaton_comments: automaton_comments} do
-      conn = put(conn, ~p"/api/automaton_comment/#{automaton_comments}", automaton_comments: @invalid_attrs)
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      automaton_comments: automaton_comments
+    } do
+      conn =
+        put(conn, ~p"/api/automaton_comment/#{automaton_comments}",
+          automaton_comments: @invalid_attrs
+        )
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -71,7 +85,10 @@ defmodule BackWeb.AutomatonCommentsControllerTest do
   describe "delete automaton_comments" do
     setup [:create_automaton_comments]
 
-    test "deletes chosen automaton_comments", %{conn: conn, automaton_comments: automaton_comments} do
+    test "deletes chosen automaton_comments", %{
+      conn: conn,
+      automaton_comments: automaton_comments
+    } do
       conn = delete(conn, ~p"/api/automaton_comment/#{automaton_comments}")
       assert response(conn, 204)
 
