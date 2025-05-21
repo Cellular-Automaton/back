@@ -14,6 +14,7 @@ defmodule BackWeb.Router do
     resources "/blocked", BlockedController, except: [:new, :edit]
     resources "/favorite", FavoriteController, except: [:new, :edit]
     resources "/posts_actions", PostActionsController, except: [:new, :edit]
+    resources "/automaton_comment", AutomatonCommentsController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
