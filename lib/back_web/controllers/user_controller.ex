@@ -20,9 +20,20 @@ defmodule BackWeb.UserController do
     end
   end
 
-  def show(conn, %{"user_id" => user_id}) do
+  def show(conn, %{"id" => user_id}) do
     user = Users.get_user!(user_id)
     render(conn, :show, user: user)
+  end
+
+  def index_pic(conn, _params) do
+    user = Users.list_user_with_pic()
+    IO.inspect(user)
+    render(conn, :index_picture, user: user)
+  end
+
+  def show_pic(conn, %{"user_id" => user_id}) do
+    user = Users.get_user_pic!(user_id)
+    render(conn, :show_picture, user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

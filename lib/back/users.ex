@@ -7,6 +7,7 @@ defmodule Back.Users do
   alias Back.Repo
 
   alias Back.Users.User
+  alias Back.Data.Image.Images
 
   @doc """
   Returns the list of user.
@@ -51,6 +52,15 @@ defmodule Back.Users do
   """
   def create_user(attrs \\ %{}) do
     IO.inspect(attrs, label: "Creating user with attrs")
+
+    # note: create user first, then add user_id to image
+    cond do
+      attrs["profile_pic"] != nil ->
+        %Images{} |> Images.changeset(attrs["profile_pic"]) |> Repo.insert()
+
+      true ->
+        ""
+    end
 
     %User{}
     |> User.changeset(attrs)
@@ -103,4 +113,17 @@ defmodule Back.Users do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  # NOTE: with pictures
+
+  def list_user_with_pic() do
+    Repo.all(User) |> Repo.preload([:profile_pic])
+  end
+
+  def get_user_pic!(user_id) do
+    Repo.get!(User, user_id)
+    |> Repo.preload([:profile_pic])
+  end
+
+  # TODO: before merge, need to do create and update function with pictures
 end

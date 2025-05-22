@@ -13,6 +13,8 @@ defmodule Back.Users.User do
     field :verified, :boolean, default: false
     field :user_role, :string
 
+    has_one :profile_pic, Back.Data.Image.Images, foreign_key: :user_id
+
     timestamps()
   end
 

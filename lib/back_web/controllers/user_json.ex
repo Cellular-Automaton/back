@@ -27,4 +27,31 @@ defmodule BackWeb.UserJSON do
       verified: user.verified
     }
   end
+
+  # same structure, with the profile picture added
+
+  def index_picture(%{user: user}) do
+    %{data: for(user <- user, do: data_picture(user))}
+  end
+
+  @doc """
+  Render a user with the profile picture when needed
+  """
+  def show_picture(%{user: user}) do
+    %{data: data_picture(user)}
+  end
+
+  defp data_picture(%User{} = user) do
+    %{
+      user_id: user.user_id,
+      username: user.username,
+      # password: user.password, # NOTE: shouldn't be available for public data (or maybe crypted)
+      user_role: user.user_role,
+      email: user.email,
+      phone: user.phone,
+      created_at: user.created_at,
+      verified: user.verified,
+      profile_pic: user.profile_pic
+    }
+  end
 end

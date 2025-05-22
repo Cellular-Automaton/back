@@ -7,7 +7,11 @@ defmodule BackWeb.Router do
 
   scope "/api", BackWeb do
     pipe_through :api
+    # user
+    get "/user/pictures", UserController, :index_pic
+    get "/user/pictures/:user_id", UserController, :show_pic
     resources "/user", UserController, except: [:new, :edit]
+
     resources "/post", PostController, except: [:new, :edit]
     resources "/automaton", AutomatonController, except: [:new, :edit]
     resources "/comment", CommentController, except: [:new, :edit]
