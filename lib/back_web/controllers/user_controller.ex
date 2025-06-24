@@ -40,7 +40,7 @@ defmodule BackWeb.UserController do
     user = Users.get_user!(id)
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, :show, user: user)
+      render(conn, :show, user: user.user_id)
     end
   end
 

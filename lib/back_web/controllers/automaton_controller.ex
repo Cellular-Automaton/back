@@ -15,7 +15,7 @@ defmodule BackWeb.AutomatonController do
     with {:ok, %Automaton{} = automaton} <- Automatons.create_automaton(automaton_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/automaton/#{automaton}")
+      |> put_resp_header("location", ~p"/api/automaton/#{automaton.automaton_id}")
       |> render(:show, automaton: automaton)
     end
   end

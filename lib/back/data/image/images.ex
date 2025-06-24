@@ -2,6 +2,7 @@ defmodule Back.Data.Image.Images do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:contents_binary, :contents_type]}
   schema "image" do
     field :contents_binary, :binary
     field :contents_type, :string

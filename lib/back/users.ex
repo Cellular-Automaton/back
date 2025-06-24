@@ -54,17 +54,28 @@ defmodule Back.Users do
     IO.inspect(attrs, label: "Creating user with attrs")
 
     # note: create user first, then add user_id to image
+
+    user =
+      %User{}
+      |> User.changeset(attrs)
+      |> Repo.insert()
+
     cond do
+      elem(user, 0) != :ok ->
+        ""
+
       attrs["profile_pic"] != nil ->
-        %Images{} |> Images.changeset(attrs["profile_pic"]) |> Repo.insert()
+        content = elem(user, 1)
+
+        %Images{}
+        |> Images.changeset(Map.put(attrs["profile_pic"], "user_id", content.user_id))
+        |> Repo.insert()
 
       true ->
         ""
     end
 
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    user
   end
 
   @doc """
@@ -80,6 +91,17 @@ defmodule Back.Users do
 
   """
   def update_user(%User{} = user, attrs) do
+    query = from i in Images, where: i.user_id == ^user.user_id
+    image = Repo.one(query)
+
+    cond do
+      attrs["profile_pic"] != nil ->
+        Back.Data.Image.change_images(image, attrs["profile_pic"])
+
+      true ->
+        ""
+    end
+
     user
     |> User.changeset(attrs)
     |> Repo.update()

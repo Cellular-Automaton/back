@@ -7,6 +7,7 @@ defmodule Back.Automatons do
   alias Back.Repo
 
   alias Back.Automatons.Automaton
+  alias Back.Data.Image.Images
 
   @doc """
   Returns the list of automaton.
@@ -50,9 +51,30 @@ defmodule Back.Automatons do
 
   """
   def create_automaton(attrs \\ %{}) do
-    %Automaton{}
-    |> Automaton.changeset(attrs)
-    |> Repo.insert()
+    # TODO: fetch user data & put it as posted_by
+    auto =
+      %Automaton{}
+      |> Automaton.changeset(attrs)
+      |> Repo.insert()
+
+    cond do
+      elem(auto, 0) != :ok ->
+        ""
+
+      attrs["image"] != nil ->
+        content = elem(auto, 1)
+
+        for automaton <- attrs["image"] do
+          %Images{}
+          |> Images.changeset(Map.put(automaton, "automaton_id", content.automaton_id))
+          |> Repo.insert()
+        end
+
+      true ->
+        ""
+    end
+
+    auto
   end
 
   @doc """
