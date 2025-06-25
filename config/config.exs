@@ -11,6 +11,13 @@ config :back,
   ecto_repos: [Back.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :back, Back.Users.Guardian,
+  issuer: "back",
+  # NOTE: only for dev
+  secret_key: "k/l7rLScT0JpArQ93NvJ+JYf86/YglzDd194xlSk1UQLspZy86kk5mqfAqK05/D0",
+  serializer: Back.Token,
+  token_salt: "your_salt"
+
 # Configures the endpoint
 config :back, BackWeb.Endpoint,
   url: [host: "localhost"],

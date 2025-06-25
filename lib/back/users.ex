@@ -5,6 +5,7 @@ defmodule Back.Users do
 
   import Ecto.Query, warn: false
   alias Back.Repo
+  alias Argon2
 
   alias Back.Users.User
   alias Back.Data.Image.Images
@@ -148,4 +149,30 @@ defmodule Back.Users do
   end
 
   # TODO: before merge, need to do create and update function with pictures
+
+  def get_user_by_email_and_password(email, password) do
+    query = from u in User, where: u.email == ^email, where: u.password == ^password
+
+    case Repo.one(query) do
+      nil -> {:error, :unauthorized}
+      user -> {:ok, user}
+    end
+  end
+
+  def authenticate_user(email, plain_text_password) do
+    query = from u in User, where: u.email == ^email
+
+    case Repo.one(query) do
+      nil ->
+        Argon2.no_user_verify()
+        {:error, :invalid_credentials}
+
+      user ->
+        if Argon2.verify_pass(plain_text_password, user.password) do
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
+  end
 end
