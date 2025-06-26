@@ -64,7 +64,7 @@ defmodule BackWeb.UserController do
     end
   end
 
-  def update_pic(conn, %{"user" => user_params}) do
+  def update_pic(conn, %{"id" => id, "user" => user_params}) do
     user = Users.get_user!(id)
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do

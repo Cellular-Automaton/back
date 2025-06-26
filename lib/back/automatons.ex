@@ -8,6 +8,7 @@ defmodule Back.Automatons do
 
   alias Back.Automatons.Automaton
   alias Back.Data.Image.Images
+  alias Back.Data.Image
 
   @doc """
   Returns the list of automaton.
@@ -37,6 +38,10 @@ defmodule Back.Automatons do
 
   """
   def get_automaton!(id), do: Repo.get!(Automaton, id)
+
+  def get_automaton_img!(id) do
+    Repo.get!(Automaton, id) |> Repo.preload([:image])
+  end
 
   @doc """
   Creates a automaton.
@@ -90,6 +95,22 @@ defmodule Back.Automatons do
 
   """
   def update_automaton(%Automaton{} = automaton, attrs) do
+    to_del = Image.get_image_automaton_id(automaton.automaton_id)
+
+    Enum.map(to_del, fn del -> Image.delete_images(del) end)
+
+    cond do
+      attrs["images"] != nil ->
+        Enum.map(attrs["images"], fn image ->
+          %Images{}
+          |> Images.changeset(Map.put(image, "automaton_id", automaton.automaton_id))
+          |> Repo.insert()
+        end)
+
+      true ->
+        ""
+    end
+
     automaton
     |> Automaton.changeset(attrs)
     |> Repo.update()

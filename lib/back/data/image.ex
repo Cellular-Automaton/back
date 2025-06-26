@@ -114,7 +114,7 @@ defmodule Back.Data.Image do
   def get_image_automaton_id(automaton_id) do
     query = from i in Images, where: i.automaton_id == ^automaton_id
 
-    case Repo.one(query) do
+    case Repo.all(query) do
       nil -> {:none, %{}}
       img -> {:ok, img}
     end

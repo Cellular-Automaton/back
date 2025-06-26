@@ -3,6 +3,7 @@ defmodule BackWeb.AutomatonController do
 
   alias Back.Automatons
   alias Back.Automatons.Automaton
+  alias Back.Data.Image
 
   action_fallback BackWeb.FallbackController
 
@@ -20,9 +21,30 @@ defmodule BackWeb.AutomatonController do
     end
   end
 
+  def create_image(conn, %{"automaton" => automaton_params}) do
+    with {:ok, %Automaton{} = automaton} <- Automatons.create_automaton(automaton_params) do
+      {res, img} = Image.get_image_automaton_id(automaton.automaton_id)
+
+      automaton =
+        if res == :ok do
+          Map.put(automaton, :image, img)
+        end
+
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", ~p"/api/automaton/#{automaton.automaton_id}")
+      |> render(:show_images, automaton: automaton)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     automaton = Automatons.get_automaton!(id)
     render(conn, :show, automaton: automaton)
+  end
+
+  def show_img(conn, %{"id" => id}) do
+    automaton = Automatons.get_automaton_img!(id)
+    render(conn, :show_images, automaton: automaton)
   end
 
   def update(conn, %{"id" => id, "automaton" => automaton_params}) do
