@@ -5,8 +5,10 @@ defmodule Back.Users do
 
   import Ecto.Query, warn: false
   alias Back.Repo
+  alias Argon2
 
   alias Back.Users.User
+  alias Back.Data.Image.Images
 
   @doc """
   Returns the list of user.
@@ -52,9 +54,29 @@ defmodule Back.Users do
   def create_user(attrs \\ %{}) do
     IO.inspect(attrs, label: "Creating user with attrs")
 
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    # note: create user first, then add user_id to image
+
+    user =
+      %User{}
+      |> User.changeset(attrs)
+      |> Repo.insert()
+
+    cond do
+      elem(user, 0) != :ok ->
+        ""
+
+      attrs["profile_pic"] != nil ->
+        content = elem(user, 1)
+
+        %Images{}
+        |> Images.changeset(Map.put(attrs["profile_pic"], "user_id", content.user_id))
+        |> Repo.insert()
+
+      true ->
+        ""
+    end
+
+    user
   end
 
   @doc """
@@ -70,6 +92,17 @@ defmodule Back.Users do
 
   """
   def update_user(%User{} = user, attrs) do
+    query = from i in Images, where: i.user_id == ^user.user_id
+    image = Repo.one(query)
+
+    cond do
+      attrs["profile_pic"] != nil ->
+        Back.Data.Image.change_images(image, attrs["profile_pic"])
+
+      true ->
+        ""
+    end
+
     user
     |> User.changeset(attrs)
     |> Repo.update()
@@ -102,5 +135,44 @@ defmodule Back.Users do
   """
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
+  end
+
+  # NOTE: with pictures
+
+  def list_user_with_pic() do
+    Repo.all(User) |> Repo.preload([:profile_pic])
+  end
+
+  def get_user_pic!(user_id) do
+    Repo.get!(User, user_id)
+    |> Repo.preload([:profile_pic])
+  end
+
+  # TODO: before merge, need to do create and update function with pictures
+
+  def get_user_by_email_and_password(email, password) do
+    query = from u in User, where: u.email == ^email, where: u.password == ^password
+
+    case Repo.one(query) do
+      nil -> {:error, :unauthorized}
+      user -> {:ok, user}
+    end
+  end
+
+  def authenticate_user(email, plain_text_password) do
+    query = from u in User, where: u.email == ^email
+
+    case Repo.one(query) do
+      nil ->
+        Argon2.no_user_verify()
+        {:error, :invalid_credentials}
+
+      user ->
+        if Argon2.verify_pass(plain_text_password, user.password) do
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
   end
 end

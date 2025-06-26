@@ -10,6 +10,8 @@ defmodule Back.Automatons.Automaton do
     field :posted_by, :id
     field :viewed_by, :id
 
+    has_many :image, Back.Data.Image.Images, foreign_key: :automaton_id
+
     timestamps(type: :utc_datetime)
   end
 

@@ -21,4 +21,11 @@ defmodule BackWeb.FallbackController do
     |> put_view(html: BackWeb.ErrorHTML, json: BackWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :invalid_credentials}) do
+    conn
+    |> put_status(401)
+    |> put_view(html: BackWeb.ErrorHTML, json: BackWeb.ErrorJSON)
+    |> render(:"401")
+  end
 end

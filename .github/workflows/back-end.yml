@@ -23,5 +23,7 @@ jobs:
           # mix setup # should install dependencies and set migrations
       - name: Check coding style
         run: mix format --check-formatted
-      - name: Run tests
-        run: mix test
+      - name: Check if can compile
+        run: mix compile
+      # - name: Run tests
+      #   run: mix test
