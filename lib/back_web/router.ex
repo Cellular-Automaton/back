@@ -6,14 +6,20 @@ defmodule BackWeb.Router do
   end
 
   pipeline :auth do
-    plug(Guardian.Plug.EnsureAuthenticated, %{"typ" => "access", handler: MyApp.HttpErrorHandler})
+    plug Guardian.Plug.Pipeline,
+      error_handler: Back.Users.ErrorHandler,
+      module: Back.Users.Guardian
+
+    plug Guardian.Plug.VerifySession, claims: %{"typ" => "access"}
+    plug Guardian.Plug.VerifyHeader, claims: %{"typ" => "access"}
+    plug Guardian.Plug.EnsureAuthenticated
+    plug Guardian.Plug.LoadResource
   end
 
   scope "/api", BackWeb do
     pipe_through :api
 
     post "/user", UserController, :create
-    get "/login", AuthController, :new
     post "/login", AuthController, :login
 
     # token check

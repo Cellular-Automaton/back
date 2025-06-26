@@ -1,20 +1,9 @@
 defmodule BackWeb.AuthController do
   use BackWeb, :controller
 
-  alias Back.{Users, Users.User, Users.Guardian}
+  alias Back.{Users, Users.Guardian}
 
   action_fallback BackWeb.FallbackController
-
-  def new(conn, _) do
-    changeset = Users.change_user(%User{})
-    maybe_user = Guardian.Plug.current_resource(conn)
-
-    if maybe_user do
-      redirect(conn, to: "/protected")
-    else
-      render(conn, :login, changeset: changeset, action: Routes.session_path(conn, :login))
-    end
-  end
 
   def login(conn, %{"email" => email, "password" => password}) do
     Users.authenticate_user(email, password)
@@ -24,16 +13,14 @@ defmodule BackWeb.AuthController do
   def logout(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
-    # and the arguments specified in the Guardian.Plug.sign_out()
-    |> redirect(to: "/login")
+
+    send_resp(conn, :no_content, "")
   end
 
   # docs are not applicable here
 
   defp login_reply(res, conn) do
     with {:ok, user} <- res do
-      IO.inspect("waaaaaa")
-
       token =
         conn
         |> Guardian.Plug.sign_in(%{
