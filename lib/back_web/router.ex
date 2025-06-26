@@ -20,6 +20,7 @@ defmodule BackWeb.Router do
     pipe_through :api
 
     post "/user", UserController, :create
+    post "/user/pictures", UserController, :create_pic
     post "/login", AuthController, :login
 
     # token check

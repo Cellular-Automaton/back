@@ -19,7 +19,6 @@ defmodule BackWeb.UserJSON do
     %{
       user_id: user.user_id,
       username: user.username,
-      # password: user.password, # NOTE: shouldn't be available for public data (or maybe crypted)
       user_role: user.user_role,
       email: user.email,
       phone: user.phone,
@@ -41,11 +40,10 @@ defmodule BackWeb.UserJSON do
     %{data: data_picture(user)}
   end
 
-  defp data_picture(%User{} = user) do
+  defp data_picture(%{} = user) do
     %{
       user_id: user.user_id,
       username: user.username,
-      # password: user.password, # NOTE: shouldn't be available for public data (or maybe crypted)
       user_role: user.user_role,
       email: user.email,
       phone: user.phone,

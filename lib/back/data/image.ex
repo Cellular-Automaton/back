@@ -101,4 +101,22 @@ defmodule Back.Data.Image do
   def change_images(%Images{} = images, attrs \\ %{}) do
     Images.changeset(images, attrs)
   end
+
+  def get_image_user_id(user_id) do
+    query = from i in Images, where: i.user_id == ^user_id
+
+    case Repo.one(query) do
+      nil -> {:none, %{}}
+      img -> {:ok, img}
+    end
+  end
+
+  def get_image_automaton_id(automaton_id) do
+    query = from i in Images, where: i.automaton_id == ^automaton_id
+
+    case Repo.one(query) do
+      nil -> {:none, %{}}
+      img -> {:ok, img}
+    end
+  end
 end

@@ -3,6 +3,7 @@ defmodule BackWeb.UserController do
 
   alias Back.Users
   alias Back.Users.User
+  alias Back.Data.Image
 
   action_fallback BackWeb.FallbackController
 
@@ -17,6 +18,25 @@ defmodule BackWeb.UserController do
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/user/#{user.user_id}")
       |> render(:show, user: user)
+    end
+  end
+
+  def create_pic(conn, %{"user" => user_params}) do
+    with {:ok, %User{} = user} <- Users.create_user(user_params) do
+      {res, img} = Image.get_image_user_id(user.user_id)
+
+      user =
+        if res == :ok do
+          Map.put(user, :profile_pic, %{
+            contents_binary: img.contents_binary,
+            contents_type: img.contents_type
+          })
+        end
+
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", ~p"/api/user/#{user.user_id}")
+      |> render(:show_picture, user: user)
     end
   end
 
@@ -41,6 +61,28 @@ defmodule BackWeb.UserController do
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
       render(conn, :show, user: user.user_id)
+    end
+  end
+
+  def update_pic(conn, %{"user" => user_params}) do
+    user = Users.get_user!(id)
+
+    with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
+      {res, img} = Image.get_image_user_id(user.user_id)
+
+      # FIX: probably error if no picture provided tho
+      user =
+        if res == :ok do
+          Map.put(user, :profile_pic, %{
+            contents_binary: img.contents_binary,
+            contents_type: img.contents_type
+          })
+        end
+
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", ~p"/api/user/#{user.user_id}")
+      |> render(:show_picture, user: user)
     end
   end
 
