@@ -56,27 +56,25 @@ defmodule Back.Users do
 
     # note: create user first, then add user_id to image
 
-    user =
+    {res, user} =
       %User{}
       |> User.changeset(attrs)
       |> Repo.insert()
 
     cond do
-      elem(user, 0) != :ok ->
+      res != :ok ->
         ""
 
       attrs["profile_pic"] != nil ->
-        content = elem(user, 1)
-
         %Images{}
-        |> Images.changeset(Map.put(attrs["profile_pic"], "user_id", content.user_id))
+        |> Images.changeset(Map.put(attrs["profile_pic"], "user_id", user.user_id))
         |> Repo.insert()
 
       true ->
         ""
     end
 
-    user
+    {res, user}
   end
 
   @doc """
@@ -148,8 +146,7 @@ defmodule Back.Users do
     |> Repo.preload([:profile_pic])
   end
 
-  # TODO: before merge, need to do create and update function with pictures
-
+  # NOTE: functions for auth
   def get_user_by_email_and_password(email, password) do
     query = from u in User, where: u.email == ^email, where: u.password == ^password
 
