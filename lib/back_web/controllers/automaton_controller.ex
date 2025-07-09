@@ -12,6 +12,11 @@ defmodule BackWeb.AutomatonController do
     render(conn, :index, automaton: automaton)
   end
 
+  def index_img(conn, _params) do
+    automaton = Automatons.list_automaton_with_img()
+    render(conn, :index_image, automaton: automaton)
+  end
+
   def create(conn, %{"automaton" => automaton_params}) do
     with {:ok, %Automaton{} = automaton} <- Automatons.create_automaton(automaton_params) do
       conn

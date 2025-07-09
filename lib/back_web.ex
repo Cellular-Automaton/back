@@ -12,9 +12,7 @@ defmodule BackWeb do
   component, etc, so keep them short and clean, focused
   on imports, uses and aliases.
 
-  Do NOT define functions inside the quoted expressions
-  below. Instead, define additional modules and import
-  those modules here.
+  The routes are listed in [BackWeb.Router](BackWeb.Router.html)
   """
 
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)

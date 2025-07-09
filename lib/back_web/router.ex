@@ -1,4 +1,7 @@
 defmodule BackWeb.Router do
+  @moduledoc """
+  Hosts all routes
+  """
   use BackWeb, :router
 
   pipeline :api do
@@ -17,24 +20,30 @@ defmodule BackWeb.Router do
   end
 
   scope "/api", BackWeb do
+    @doc elem(File.read("./priv/static/routes.md"), 1)
     pipe_through :api
 
     post "/user", UserController, :create
     post "/user/pictures", UserController, :create_pic
     post "/login", AuthController, :login
 
+    # automaton
+    get "/automaton", AutomatonController, :index
+    get "/automaton/images", AutomatonController, :index_img
+    get "/automaton/images/:id", AutomatonController, :show_img
+
+    # user
+    get "/user/pictures", UserController, :index_pic
+    get "/user/pictures/:user_id", UserController, :show_pic
+
     # token check
     scope "/" do
       pipe_through :auth
-      # user
-      get "/user/pictures", UserController, :index_pic
-      get "/user/pictures/:user_id", UserController, :show_pic
       resources "/user", UserController, except: [:new, :edit, :create]
 
       resources "/post", PostController, except: [:new, :edit]
-      resources "/automaton", AutomatonController, except: [:new, :edit]
+      resources "/automaton", AutomatonController, except: [:new, :edit, :index]
       post "/automaton/image", AutomatonController, :create_image
-      get "/automaton/images/:id", AutomatonController, :show_img
       resources "/comment", CommentController, except: [:new, :edit]
       resources "/blocked", BlockedController, except: [:new, :edit]
       resources "/favorite", FavoriteController, except: [:new, :edit]
