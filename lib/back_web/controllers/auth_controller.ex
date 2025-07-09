@@ -2,6 +2,7 @@ defmodule BackWeb.AuthController do
   use BackWeb, :controller
 
   alias Back.{Users, Users.Guardian}
+  alias Back.Data.Image
 
   action_fallback BackWeb.FallbackController
 
@@ -29,7 +30,17 @@ defmodule BackWeb.AuthController do
           user_id: user.user_id
         })
 
-      render(conn, :login, token: token.private[:guardian_default_token])
+      with {:ok, img} <- Image.get_image_user_id(user.user_id) do
+        render(conn, :login_img,
+          token: token.private[:guardian_default_token],
+          user: user,
+          image: img
+        )
+      end
+
+      conn
+      |> put_status(206)
+      |> render(:login, token: token.private[:guardian_default_token], user: user)
     end
   end
 
