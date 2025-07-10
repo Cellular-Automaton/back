@@ -11,7 +11,7 @@ defmodule BackWeb.AutomatonCommentsController do
     render(conn, :index, automaton_comment: automaton_comment)
   end
 
-  def create(conn, %{"automaton_comments" => automaton_comments_params}) do
+  def create(conn, %{"automaton_comment" => automaton_comments_params}) do
     with {:ok, %AutomatonComments{} = automaton_comments} <-
            AutomatonsComments.create_automaton_comments(automaton_comments_params) do
       conn
@@ -26,7 +26,7 @@ defmodule BackWeb.AutomatonCommentsController do
     render(conn, :show, automaton_comments: automaton_comments)
   end
 
-  def update(conn, %{"id" => id, "automaton_comments" => automaton_comments_params}) do
+  def update(conn, %{"id" => id, "automaton_comment" => automaton_comments_params}) do
     automaton_comments = AutomatonsComments.get_automaton_comments!(id)
 
     with {:ok, %AutomatonComments{} = automaton_comments} <-
