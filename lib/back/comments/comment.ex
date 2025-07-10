@@ -3,11 +3,12 @@ defmodule Back.Comments.Comment do
   import Ecto.Changeset
 
   @primary_key {:comment_id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "comment" do
     field :edited, :boolean, default: false
     field :contents, :string
-    field :posted_by, :id
-    field :post_id, :id
+    field :posted_by, :binary_id
+    field :post_id, :binary_id
 
     timestamps(type: :utc_datetime)
   end

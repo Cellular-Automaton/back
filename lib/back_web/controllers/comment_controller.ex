@@ -12,10 +12,14 @@ defmodule BackWeb.CommentController do
   end
 
   def create(conn, %{"comment" => comment_params}) do
+    IO.inspect(comment_params)
+
     with {:ok, %Comment{} = comment} <- Comments.create_comment(comment_params) do
+      IO.inspect(comment)
+
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/comment/#{comment}")
+      |> put_resp_header("location", ~p"/api/comment/#{comment.comment_id}")
       |> render(:show, comment: comment)
     end
   end

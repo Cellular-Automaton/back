@@ -15,7 +15,7 @@ defmodule BackWeb.PostController do
     with {:ok, %Post{} = post} <- Posts.create_post(post_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/post/#{post}")
+      |> put_resp_header("location", ~p"/api/post/#{post.post_id}")
       |> render(:show, post: post)
     end
   end
