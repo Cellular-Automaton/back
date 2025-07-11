@@ -9,7 +9,21 @@ defmodule Back.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "CAMI-Back",
+      source_url: "https://github.com/Cellular-Automaton/back",
+      homepage_url: "http://cami.ovh",
+      docs: &docs/0
+    ]
+  end
+
+  defp docs do
+    [
+      # The main page in the docs
+      main: "Back",
+      extras: ["README.md"]
     ]
   end
 
@@ -37,6 +51,7 @@ defmodule Back.MixProject do
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false, warn_if_outdated: true},
       {:swoosh, "~> 1.5"},
       {:cors_plug, "~> 3.0"},
       {:finch, "~> 0.13"},

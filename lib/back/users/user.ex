@@ -24,6 +24,8 @@ defmodule Back.Users.User do
     user
     |> cast(attrs, [:user_id, :username, :email, :phone, :verified, :user_role, :password])
     |> validate_required([:username, :email, :user_role, :password])
+    |> unique_constraint([:email], name: :user_email_index)
+    |> unique_constraint([:username], name: :user_username_index)
     |> validate_inclusion(:user_role, ~w(admin developer user))
     |> put_password_hash()
   end

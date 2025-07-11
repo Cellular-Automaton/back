@@ -1,8 +1,7 @@
 defmodule BackWeb.UserController do
   use BackWeb, :controller
 
-  alias Back.Users
-  alias Back.Users.User
+  alias Back.{Users, Users.Guardian, Users.User}
   alias Back.Data.Image
 
   action_fallback BackWeb.FallbackController
@@ -33,10 +32,18 @@ defmodule BackWeb.UserController do
           })
         end
 
+      token =
+        conn
+        |> Guardian.Plug.sign_in(%{
+          email: user.email,
+          password: user.password,
+          user_id: user.user_id
+        })
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/user/#{user.user_id}")
-      |> render(:show_picture, user: user)
+      |> render(:show_new, user: user, token: token.private[:guardian_default_token])
     end
   end
 

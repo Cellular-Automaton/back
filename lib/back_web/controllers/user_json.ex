@@ -22,7 +22,7 @@ defmodule BackWeb.UserJSON do
       user_role: user.user_role,
       email: user.email,
       phone: user.phone,
-      created_at: user.created_at,
+      created_at: user.inserted_at,
       verified: user.verified
     }
   end
@@ -47,9 +47,29 @@ defmodule BackWeb.UserJSON do
       user_role: user.user_role,
       email: user.email,
       phone: user.phone,
-      created_at: user.created_at,
+      created_at: user.inserted_at,
       verified: user.verified,
       profile_pic: user.profile_pic
+    }
+  end
+
+  def show_new(%{user: user, token: token}) do
+    %{data: data_new(user, token)}
+  end
+
+  defp data_new(%{} = user, token) do
+    %{
+      user: %{
+        user_id: user.user_id,
+        username: user.username,
+        user_role: user.user_role,
+        email: user.email,
+        phone: user.phone,
+        created_at: user.inserted_at,
+        verified: user.verified,
+        profile_pic: user.profile_pic
+      },
+      token: token
     }
   end
 end

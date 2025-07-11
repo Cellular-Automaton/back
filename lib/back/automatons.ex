@@ -24,6 +24,19 @@ defmodule Back.Automatons do
   end
 
   @doc """
+  Gets all automaton with their image field preloaded
+
+
+  ## Examples
+
+      iex> list_automaton_with_img()
+      [%Automaton{:image: [], ...}, ...]
+  """
+  def list_automaton_with_img do
+    Repo.all(Automaton) |> Repo.preload([:image])
+  end
+
+  @doc """
   Gets a single automaton.
 
   Raises `Ecto.NoResultsError` if the Automaton does not exist.
