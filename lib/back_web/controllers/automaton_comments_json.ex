@@ -19,7 +19,9 @@ defmodule BackWeb.AutomatonCommentsJSON do
     %{
       id: automaton_comments.id,
       edited: automaton_comments.edited,
-      contents: automaton_comments.contents
+      contents: automaton_comments.contents,
+      automaton_id: automaton_comments.automaton_id,
+      posted_by: automaton_comments.posted_by
     }
   end
 end

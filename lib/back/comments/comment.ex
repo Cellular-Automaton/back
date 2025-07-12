@@ -16,7 +16,7 @@ defmodule Back.Comments.Comment do
   @doc false
   def changeset(comment, attrs) do
     comment
-    |> cast(attrs, [:edited, :contents])
+    |> cast(attrs, [:edited, :contents, :posted_by, :post_id])
     |> validate_required([:edited, :contents])
   end
 end

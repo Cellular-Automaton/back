@@ -49,6 +49,7 @@ defmodule BackWeb.Router do
       resources "/favorite", FavoriteController, except: [:new, :edit]
       resources "/posts_actions", PostActionsController, except: [:new, :edit]
       resources "/automaton_comment", AutomatonCommentsController, except: [:new, :edit]
+      get "/automaton_comment/automaton/:id", AutomatonCommentsController, :get_by_automaton
     end
   end
 

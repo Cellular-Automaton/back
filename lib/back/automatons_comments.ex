@@ -37,6 +37,13 @@ defmodule Back.AutomatonsComments do
   """
   def get_automaton_comments!(id), do: Repo.get!(AutomatonComments, id)
 
+  def get_by_automaton_id!(id) do
+    IO.inspect(id)
+    query = from ac in AutomatonComments, where: ac.automaton_id == ^id
+
+    Repo.all(query)
+  end
+
   @doc """
   Creates a automaton_comments.
 
@@ -50,6 +57,8 @@ defmodule Back.AutomatonsComments do
 
   """
   def create_automaton_comments(attrs \\ %{}) do
+    IO.inspect(attrs)
+
     %AutomatonComments{}
     |> AutomatonComments.changeset(attrs)
     |> Repo.insert()
