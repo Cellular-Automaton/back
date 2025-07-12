@@ -41,6 +41,7 @@ defmodule BackWeb.Router do
     scope "/" do
       pipe_through :auth
       resources "/user", UserController, except: [:new, :edit, :create]
+      get "/user/favorite/:user_id", FavoriteController, :get_by_user
 
       resources "/post", PostController, except: [:new, :edit]
       resources "/automaton", AutomatonController, except: [:new, :edit, :index]

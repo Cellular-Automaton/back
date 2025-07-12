@@ -57,8 +57,6 @@ defmodule Back.AutomatonsComments do
 
   """
   def create_automaton_comments(attrs \\ %{}) do
-    IO.inspect(attrs)
-
     %AutomatonComments{}
     |> AutomatonComments.changeset(attrs)
     |> Repo.insert()

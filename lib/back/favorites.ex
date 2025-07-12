@@ -101,4 +101,10 @@ defmodule Back.Favorites do
   def change_favorite(%Favorite{} = favorite, attrs \\ %{}) do
     Favorite.changeset(favorite, attrs)
   end
+
+  def get_by_user!(user_id) do
+    query = from f in Favorite, where: f.user_id == ^user_id
+
+    Repo.all(query)
+  end
 end
