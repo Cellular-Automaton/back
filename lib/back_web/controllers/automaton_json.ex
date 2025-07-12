@@ -46,4 +46,29 @@ defmodule BackWeb.AutomatonJSON do
       image: automaton.image
     }
   end
+
+  @doc """
+  Renders a list of automaton.
+  """
+  def index_date(%{automaton: automaton}) do
+    %{data: for(automaton <- automaton, do: data_date(automaton))}
+  end
+
+  @doc """
+  Renders a single automaton.
+  """
+  def show_date(%{automaton: automaton}) do
+    %{data: data_date(automaton)}
+  end
+
+  defp data_date(%Automaton{} = automaton) do
+    %{
+      automaton_id: automaton.automaton_id,
+      contents: automaton.contents,
+      name: automaton.name,
+      description: automaton.description,
+      inserted_at: automaton.inserted_at,
+      updated_at: automaton.updated_at
+    }
+  end
 end

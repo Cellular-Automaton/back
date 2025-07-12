@@ -68,4 +68,9 @@ defmodule BackWeb.AutomatonController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def get_recents(conn, %{"nb" => nb}) do
+    automaton = Automatons.get_recents!(nb)
+    render(conn, :index_date, automaton: automaton)
+  end
 end

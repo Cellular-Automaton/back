@@ -157,4 +157,10 @@ defmodule Back.Automatons do
   def change_automaton(%Automaton{} = automaton, attrs \\ %{}) do
     Automaton.changeset(automaton, attrs)
   end
+
+  def get_recents!(nb) do
+    query = from a in Automaton, order_by: [asc: a.inserted_at], limit: ^nb
+
+    Repo.all(query)
+  end
 end

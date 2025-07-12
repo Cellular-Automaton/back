@@ -31,6 +31,7 @@ defmodule BackWeb.Router do
     get "/automaton", AutomatonController, :index
     get "/automaton/images", AutomatonController, :index_img
     get "/automaton/images/:id", AutomatonController, :show_img
+    get "/automaton/recent/:nb", AutomatonController, :get_recents
 
     # user
     get "/user/pictures", UserController, :index_pic
