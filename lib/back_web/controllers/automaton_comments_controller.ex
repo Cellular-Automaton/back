@@ -50,7 +50,6 @@ defmodule BackWeb.AutomatonCommentsController do
   def get_by_automaton(conn, %{"id" => id}) do
     automaton_comment = AutomatonsComments.get_by_automaton_id!(id)
 
-    IO.inspect(automaton_comment)
     render(conn, :index, automaton_comment: automaton_comment)
   end
 end

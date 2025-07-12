@@ -7,6 +7,7 @@ defmodule Back.AutomatonsComments do
   alias Back.Repo
 
   alias Back.AutomatonsComments.AutomatonComments
+  alias Back.Users.User
 
   @doc """
   Returns the list of automaton_comment.
@@ -38,7 +39,27 @@ defmodule Back.AutomatonsComments do
   def get_automaton_comments!(id), do: Repo.get!(AutomatonComments, id)
 
   def get_by_automaton_id!(id) do
-    query = from ac in AutomatonComments, where: ac.automaton_id == ^id
+    query =
+      from ac in AutomatonComments,
+        join: u in User,
+        on: u.user_id == ac.posted_by,
+        where: ac.automaton_id == ^id,
+        select: %{
+          id: ac.automaton_id,
+          edited: ac.edited,
+          contents: ac.contents,
+          automaton_id: ac.automaton_id,
+          inserted_at: ac.inserted_at,
+          updated_at: ac.updated_at,
+          posted_by: %{
+            user_id: u.user_id,
+            username: u.username,
+            email: u.email,
+            phone: u.phone,
+            created_at: u.created_at,
+            user_role: u.user_role
+          }
+        }
 
     Repo.all(query)
   end
