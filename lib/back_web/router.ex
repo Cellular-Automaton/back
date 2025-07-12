@@ -52,6 +52,8 @@ defmodule BackWeb.Router do
       resources "/posts_actions", PostActionsController, except: [:new, :edit]
       resources "/automaton_comment", AutomatonCommentsController, except: [:new, :edit]
       get "/automaton_comment/automaton/:id", AutomatonCommentsController, :get_by_automaton
+      resources "/tag", TagController, except: [:new, :edit]
+      resources "/automaton_tag", AutomatonTagController, except: [:new, :edit]
     end
   end
 

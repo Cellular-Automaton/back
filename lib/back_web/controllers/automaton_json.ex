@@ -27,23 +27,25 @@ defmodule BackWeb.AutomatonJSON do
   # same structure, with the images added
 
   def index_image(%{automaton: automaton}) do
-    %{data: for(automaton <- automaton, do: data_images(automaton))}
+    %{data: for(automaton <- automaton, do: data_images(automaton, automaton.tags))}
   end
 
   @doc """
   Render a automaton with the profile picture when needed
   """
-  def show_images(%{automaton: automaton}) do
-    %{data: data_images(automaton)}
+  def show_images(%{automaton: automaton, tags: tags}) do
+    IO.inspect(tags)
+    %{data: data_images(automaton, tags)}
   end
 
-  defp data_images(%{} = automaton) do
+  defp data_images(%{} = automaton, tags) do
     %{
       automaton_id: automaton.automaton_id,
       contents: automaton.contents,
       name: automaton.name,
       description: automaton.description,
-      image: automaton.image
+      image: automaton.image,
+      tags: tags
     }
   end
 

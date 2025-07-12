@@ -4,6 +4,7 @@ defmodule BackWeb.AutomatonController do
   alias Back.Automatons
   alias Back.Automatons.Automaton
   alias Back.Data.Image
+  alias Back.Automatons.AutomatonTags
 
   action_fallback BackWeb.FallbackController
 
@@ -13,8 +14,15 @@ defmodule BackWeb.AutomatonController do
   end
 
   def index_img(conn, _params) do
-    automaton = Automatons.list_automaton_with_img()
-    render(conn, :index_image, automaton: automaton)
+    automatons = Automatons.list_automaton_with_img()
+
+    automatons_tags =
+      for automaton <- automatons do
+        tags = AutomatonTags.get_tags_by_automaton_id!(automaton.automaton_id)
+        Map.put(automaton, :tags, tags)
+      end
+
+    render(conn, :index_image, automaton: automatons_tags)
   end
 
   def create(conn, %{"automaton" => automaton_params}) do
@@ -49,7 +57,9 @@ defmodule BackWeb.AutomatonController do
 
   def show_img(conn, %{"id" => id}) do
     automaton = Automatons.get_automaton_img!(id)
-    render(conn, :show_images, automaton: automaton)
+    tags = AutomatonTags.get_tags_by_automaton_id!(id)
+
+    render(conn, :show_images, automaton: automaton, tags: tags)
   end
 
   def update(conn, %{"id" => id, "automaton" => automaton_params}) do
