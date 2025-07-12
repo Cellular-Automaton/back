@@ -9,6 +9,7 @@ defmodule Back.Automatons do
   alias Back.Automatons.Automaton
   alias Back.Data.Image.Images
   alias Back.Data.Image
+  alias Back.Data.Files.File
 
   @doc """
   Returns the list of automaton.
@@ -33,7 +34,7 @@ defmodule Back.Automatons do
       [%Automaton{:image: [], ...}, ...]
   """
   def list_automaton_with_img do
-    Repo.all(Automaton) |> Repo.preload([:image])
+    Repo.all(Automaton) |> Repo.preload([:image, :file])
   end
 
   @doc """
@@ -53,7 +54,7 @@ defmodule Back.Automatons do
   def get_automaton!(id), do: Repo.get!(Automaton, id)
 
   def get_automaton_img!(id) do
-    Repo.get!(Automaton, id) |> Repo.preload([:image])
+    Repo.get!(Automaton, id) |> Repo.preload([:image, :file])
   end
 
   @doc """
@@ -69,27 +70,29 @@ defmodule Back.Automatons do
 
   """
   def create_automaton(attrs \\ %{}) do
-    # TODO: fetch user data & put it as posted_by
     auto =
       %Automaton{}
       |> Automaton.changeset(attrs)
       |> Repo.insert()
 
-    cond do
-      elem(auto, 0) != :ok ->
-        ""
+    if elem(auto, 0) == :ok do
+      content = elem(auto, 1)
 
-      attrs["image"] != nil ->
-        content = elem(auto, 1)
-
+      if attrs["image"] != nil do
         for automaton <- attrs["image"] do
           %Images{}
           |> Images.changeset(Map.put(automaton, "automaton_id", content.automaton_id))
           |> Repo.insert()
         end
+      end
 
-      true ->
-        ""
+      if attrs["file"] != nil do
+        for file <- attrs["file"] do
+          %File{}
+          |> File.changeset(Map.put(file, "automaton_id", content.automaton_id))
+          |> Repo.insert()
+        end
+      end
     end
 
     auto
@@ -108,20 +111,23 @@ defmodule Back.Automatons do
 
   """
   def update_automaton(%Automaton{} = automaton, attrs) do
-    to_del = Image.get_image_automaton_id(automaton.automaton_id)
+    if attrs["image"] != nil do
+      to_del = Image.get_image_automaton_id(automaton.automaton_id)
+      Enum.map(to_del, fn del -> Image.delete_images(del) end)
 
-    Enum.map(to_del, fn del -> Image.delete_images(del) end)
+      for automaton <- attrs["image"] do
+        %Images{}
+        |> Images.changeset(Map.put(automaton, "automaton_id", automaton.automaton_id))
+        |> Repo.insert()
+      end
+    end
 
-    cond do
-      attrs["images"] != nil ->
-        Enum.map(attrs["images"], fn image ->
-          %Images{}
-          |> Images.changeset(Map.put(image, "automaton_id", automaton.automaton_id))
-          |> Repo.insert()
-        end)
-
-      true ->
-        ""
+    if attrs["file"] != nil do
+      for file <- attrs["file"] do
+        %File{}
+        |> File.changeset(Map.put(file, "automaton_id", automaton.automaton_id))
+        |> Repo.insert()
+      end
     end
 
     automaton
@@ -161,6 +167,6 @@ defmodule Back.Automatons do
   def get_recents!(nb) do
     query = from a in Automaton, order_by: [asc: a.inserted_at], limit: ^nb
 
-    Repo.all(query)
+    Repo.all(query) |> Repo.preload([:image, :file])
   end
 end
