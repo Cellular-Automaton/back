@@ -1,7 +1,4 @@
 defmodule BackWeb.Router do
-  @moduledoc """
-  Hosts all routes
-  """
   use BackWeb, :router
 
   pipeline :api do
@@ -20,7 +17,6 @@ defmodule BackWeb.Router do
   end
 
   scope "/api", BackWeb do
-    @doc elem(File.read("./priv/static/routes.md"), 1)
     pipe_through :api
 
     post "/user", UserController, :create
@@ -54,23 +50,6 @@ defmodule BackWeb.Router do
       resources "/automaton_comment", AutomatonCommentsController, except: [:new, :edit]
       resources "/tag", TagController, except: [:new, :edit]
       resources "/automaton_tag", AutomatonTagController, except: [:new, :edit]
-    end
-  end
-
-  # Enable LiveDashboard and Swoosh mailbox preview in development
-  if Application.compile_env(:back, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
-    import Phoenix.LiveDashboard.Router
-
-    scope "/dev" do
-      pipe_through [:fetch_session, :protect_from_forgery]
-
-      live_dashboard "/dashboard", metrics: BackWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
 end

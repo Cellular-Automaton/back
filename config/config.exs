@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+if config_env() in [:dev, :test] do
+  import_config "../.env.dev.exs"
+end
+
 config :back,
   ecto_repos: [Back.Repo],
   generators: [timestamp_type: :utc_datetime]
