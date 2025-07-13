@@ -45,7 +45,7 @@ defmodule Back.AutomatonsComments do
         on: u.user_id == ac.posted_by,
         where: ac.automaton_id == ^id,
         select: %{
-          id: ac.automaton_id,
+          id: ac.id,
           edited: ac.edited,
           contents: ac.contents,
           automaton_id: ac.automaton_id,

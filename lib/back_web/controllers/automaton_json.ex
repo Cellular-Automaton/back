@@ -4,9 +4,21 @@ defmodule BackWeb.AutomatonJSON do
   @doc """
   Renders a list of automaton.
   """
-  def index(%{automaton: automaton}) do
-    %{data: for(automaton <- automaton, do: data(automaton))}
+  def index(%{automaton: automatons}) do
+    %{data: Enum.map(automatons, &data/1)}
   end
+
+  defp data(%Automaton{} = automaton) do
+    %{
+      automaton_id: automaton.automaton_id,
+      contents: automaton.contents,
+      name: automaton.name,
+      description: automaton.description,
+      tags: Map.get(automaton, :tags, []),
+      image: Map.get(automaton, :image, nil),
+    }
+  end
+
 
   @doc """
   Renders a single automaton.

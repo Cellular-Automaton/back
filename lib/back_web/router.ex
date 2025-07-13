@@ -38,6 +38,9 @@ defmodule BackWeb.Router do
     get "/user/pictures", UserController, :index_pic
     get "/user/pictures/:user_id", UserController, :show_pic
 
+    # tags
+    get "/tag", TagController, :index
+
     # token check
     scope "/" do
       pipe_through :auth
