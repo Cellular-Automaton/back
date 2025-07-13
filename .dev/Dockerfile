@@ -24,7 +24,5 @@ RUN mix compile
 # Expose the port the app runs on
 EXPOSE 4000
 
-# RUN mix ecto.create
-
 # Command to run the application using mix
 CMD mix ecto.create && mix ecto.migrate && mix phx.server
