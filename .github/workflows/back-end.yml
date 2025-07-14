@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: create .env file needed
+        run: |
+          echo "System.put_env(\"SECRET_KEY_BASE\", \"secret_key\")" > .env.dev.exs
+          echo "System.put_env(\"DATABASE_URL\", \"some_url\")" >> .env.dev.exs
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "27"
