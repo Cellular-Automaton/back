@@ -15,10 +15,9 @@ defmodule BackWeb.AutomatonJSON do
       name: automaton.name,
       description: automaton.description,
       tags: Map.get(automaton, :tags, []),
-      image: Map.get(automaton, :image, nil),
+      image: Map.get(automaton, :image, nil)
     }
   end
-
 
   @doc """
   Renders a single automaton.

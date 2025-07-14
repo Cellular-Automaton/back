@@ -11,21 +11,24 @@ defmodule BackWeb.AutomatonController do
 
   def index(conn, _params) do
     automaton = Automatons.list_automaton()
+
     automaton_with_tags =
       Enum.map(automaton, fn automaton ->
-          tags = AutomatonTags.get_tags_by_automaton_id!(automaton.automaton_id)
-          image_result = Image.get_image_automaton_id(automaton.automaton_id)
-          image =
-            case image_result do
-              {:ok, img} -> img
-              {:error, _} -> nil
-              other -> other
-            end
-          automaton
-          |> Map.put(:tags, tags)
-          |> Map.put(:image, image)
-        end
-      )
+        tags = AutomatonTags.get_tags_by_automaton_id!(automaton.automaton_id)
+        image_result = Image.get_image_automaton_id(automaton.automaton_id)
+
+        image =
+          case image_result do
+            {:ok, img} -> img
+            {:error, _} -> nil
+            other -> other
+          end
+
+        automaton
+        |> Map.put(:tags, tags)
+        |> Map.put(:image, image)
+      end)
+
     render(conn, :index, automaton: automaton_with_tags)
   end
 
@@ -149,12 +152,15 @@ defmodule BackWeb.AutomatonController do
   defp decode_base64_fields(list) when is_list(list) do
     Enum.map(list, fn item ->
       case Map.get(item, "data") do
-        nil -> item
+        nil ->
+          item
+
         base64 ->
           {:ok, binary} = Base.decode64(base64)
           Map.put(item, "data", binary)
       end
     end)
   end
+
   defp decode_base64_fields(_), do: []
 end
