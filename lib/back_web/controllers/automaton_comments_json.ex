@@ -1,6 +1,4 @@
 defmodule BackWeb.AutomatonCommentsJSON do
-  alias Back.AutomatonsComments.AutomatonComments
-
   @doc """
   Renders a list of automaton_comment.
   """
@@ -15,11 +13,15 @@ defmodule BackWeb.AutomatonCommentsJSON do
     %{data: data(automaton_comments)}
   end
 
-  defp data(%AutomatonComments{} = automaton_comments) do
+  defp data(%{} = automaton_comments) do
     %{
       id: automaton_comments.id,
       edited: automaton_comments.edited,
-      contents: automaton_comments.contents
+      contents: automaton_comments.contents,
+      inserted_at: automaton_comments.inserted_at,
+      updated_at: automaton_comments.updated_at,
+      automaton_id: automaton_comments.automaton_id,
+      posted_by: automaton_comments.posted_by
     }
   end
 end

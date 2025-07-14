@@ -31,15 +31,21 @@ defmodule BackWeb.Router do
     get "/automaton", AutomatonController, :index
     get "/automaton/images", AutomatonController, :index_img
     get "/automaton/images/:id", AutomatonController, :show_img
+    get "/automaton/recent/:nb", AutomatonController, :get_recents
+    get "/automaton_comment/automaton/:id", AutomatonCommentsController, :get_by_automaton
 
     # user
     get "/user/pictures", UserController, :index_pic
     get "/user/pictures/:user_id", UserController, :show_pic
 
+    # tags
+    get "/tag", TagController, :index
+
     # token check
     scope "/" do
       pipe_through :auth
       resources "/user", UserController, except: [:new, :edit, :create]
+      get "/user/favorite/:user_id", FavoriteController, :get_by_user
 
       resources "/post", PostController, except: [:new, :edit]
       resources "/automaton", AutomatonController, except: [:new, :edit, :index]
@@ -49,6 +55,8 @@ defmodule BackWeb.Router do
       resources "/favorite", FavoriteController, except: [:new, :edit]
       resources "/posts_actions", PostActionsController, except: [:new, :edit]
       resources "/automaton_comment", AutomatonCommentsController, except: [:new, :edit]
+      resources "/tag", TagController, except: [:new, :edit]
+      resources "/automaton_tag", AutomatonTagController, except: [:new, :edit]
     end
   end
 

@@ -16,7 +16,7 @@ defmodule Back.AutomatonsComments.AutomatonComments do
   @doc false
   def changeset(automaton_comments, attrs) do
     automaton_comments
-    |> cast(attrs, [:edited, :contents])
+    |> cast(attrs, [:edited, :contents, :posted_by, :automaton_id])
     |> validate_required([:edited, :contents])
   end
 end
