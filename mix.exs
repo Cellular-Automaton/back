@@ -54,6 +54,7 @@ defmodule Back.MixProject do
       {:ex_doc, "~> 0.34", only: :dev, runtime: false, warn_if_outdated: true},
       {:swoosh, "~> 1.5"},
       {:cors_plug, "~> 3.0"},
+      {:dotenv, "~> 3.0"},
       {:finch, "~> 0.13"},
       {:guardian, "~> 2.0"},
       {:argon2_elixir, "~> 2.0"},
