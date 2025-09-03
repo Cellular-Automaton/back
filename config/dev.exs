@@ -2,10 +2,10 @@ import Config
 
 # Configure your database
 config :back, Back.Repo,
-  # username: System.get_env("DB_USER"),
-  # password: System.get_env("DB_PASSWORD"),
-  # hostname: System.get_env("DB_HOST"),
-  # database: System.get_env("DB_NAME"),
+  username: System.get_env("DB_USER"),
+  password: System.get_env("DB_PASSWORD"),
+  hostname: System.get_env("DB_HOST"),
+  database: System.get_env("DB_NAME"),
   url: System.get_env("DATABASE_URL"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,

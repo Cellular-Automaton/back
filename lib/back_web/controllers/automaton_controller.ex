@@ -5,7 +5,6 @@ defmodule BackWeb.AutomatonController do
   alias Back.Automatons.Automaton
   alias Back.Automatons.AutomatonTags
   alias Back.Data.{Files, Image}
-  alias Back.Data.Images
 
   action_fallback BackWeb.FallbackController
 
@@ -20,7 +19,7 @@ defmodule BackWeb.AutomatonController do
         image =
           case image_result do
             {:ok, img} -> img
-            {:error, _} -> nil
+            {:none, _} -> nil
             other -> other
           end
 
@@ -144,7 +143,7 @@ defmodule BackWeb.AutomatonController do
       {:ok, file} ->
         render(conn, :show_files, automaton: automaton, files: file)
 
-      {:error, _} ->
+      {:none, _} ->
         render(conn, :show_files, automaton: automaton, files: [])
     end
   end

@@ -1,0 +1,40 @@
+name: Deploy - dev
+on:
+  push:
+    branches:
+      - dev/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: create .env file needed for elixir
+        run: |
+          echo "System.put_env(\"SECRET_KEY_BASE\", \"${{ secrets.SECRET_KEY_BASE }}\")" > .env.dev.exs
+          echo "System.put_env(\"DATABASE_URL\", \"${{ secrets.DATABASE_URL }}\")" >> .env.dev.exs
+          echo "System.put_env(\"DB_USER\", \"${{ secrets.DB_USER }}\")" >> .env.dev.exs
+          echo "System.put_env(\"DB_PASSWORD\", \"${{ secrets.DB_PASSWORD }}\")" >> .env.dev.exs
+          echo "System.put_env(\"DB_NAME\", \"${{ secrets.DB_NAME }}\")" >> .env.dev.exs
+          echo "System.put_env(\"DB_HOST\", \"${{ secrets.DB_HOST }}\")" >> .env.dev.exs
+          echo "System.put_env(\"DB_PORT\", \"${{ secrets.DB_PORT }}\")" >> .env.dev.exs
+      - name: create .env file needed for docker
+        run: |
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" > .env.dev
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env.dev
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env.dev.exs
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.dev
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env.dev.exs
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.dev.exs
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.dev.exs
+
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.APP_DIR }}
+            git pull
+            docker compose -f .dev/docker-compose.yml up --build
