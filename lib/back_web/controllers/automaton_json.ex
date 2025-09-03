@@ -19,6 +19,22 @@ defmodule BackWeb.AutomatonJSON do
     }
   end
 
+  @doc """
+  Renders a single automaton.
+  """
+  def show(%{automaton: automaton}) do
+    %{data: data_simple(automaton)}
+  end
+
+  defp data_simple(%Automaton{} = automaton) do
+    %{
+      automaton_id: automaton.automaton_id,
+      contents: automaton.contents,
+      name: automaton.name,
+      description: automaton.description
+    }
+  end
+
   # same structure, with the images added
 
   def index_image(%{automaton: automaton}) do

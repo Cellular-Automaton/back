@@ -51,7 +51,9 @@ defmodule Back.Automatons do
       ** (Ecto.NoResultsError)
 
   """
-  def get_automaton!(id), do: Repo.get!(Automaton, id)
+  def get_automaton!(id) do
+    Repo.get!(Automaton, id) |> Repo.preload([:image, :file])
+  end
 
   def get_automaton_img!(id) do
     Repo.get!(Automaton, id) |> Repo.preload([:image, :file])
