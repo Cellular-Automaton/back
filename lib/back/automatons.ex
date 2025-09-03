@@ -9,7 +9,6 @@ defmodule Back.Automatons do
   alias Back.Automatons.Automaton
   alias Back.Data.Image.Images
   alias Back.Data.Image
-  alias Back.Data.Files.File
 
   @doc """
   Returns the list of automaton.
@@ -34,7 +33,7 @@ defmodule Back.Automatons do
       [%Automaton{:image: [], ...}, ...]
   """
   def list_automaton_with_img do
-    Repo.all(Automaton) |> Repo.preload([:image, :file])
+    Repo.all(Automaton) |> Repo.preload([:image])
   end
 
   @doc """
@@ -52,11 +51,11 @@ defmodule Back.Automatons do
 
   """
   def get_automaton!(id) do
-    Repo.get!(Automaton, id) |> Repo.preload([:image, :file])
+    Repo.get!(Automaton, id) |> Repo.preload([:image])
   end
 
   def get_automaton_img!(id) do
-    Repo.get!(Automaton, id) |> Repo.preload([:image, :file])
+    Repo.get!(Automaton, id) |> Repo.preload([:image])
   end
 
   @doc """
@@ -87,14 +86,6 @@ defmodule Back.Automatons do
           |> Repo.insert()
         end
       end
-
-      if attrs["file"] != nil do
-        for file <- attrs["file"] do
-          %File{}
-          |> File.changeset(Map.put(file, "automaton_id", content.automaton_id))
-          |> Repo.insert()
-        end
-      end
     end
 
     auto
@@ -120,14 +111,6 @@ defmodule Back.Automatons do
       for automaton <- attrs["image"] do
         %Images{}
         |> Images.changeset(Map.put(automaton, "automaton_id", automaton.automaton_id))
-        |> Repo.insert()
-      end
-    end
-
-    if attrs["file"] != nil do
-      for file <- attrs["file"] do
-        %File{}
-        |> File.changeset(Map.put(file, "automaton_id", automaton.automaton_id))
         |> Repo.insert()
       end
     end
@@ -169,6 +152,6 @@ defmodule Back.Automatons do
   def get_recents!(nb) do
     query = from a in Automaton, order_by: [asc: a.inserted_at], limit: ^nb
 
-    Repo.all(query) |> Repo.preload([:image, :file])
+    Repo.all(query) |> Repo.preload([:image])
   end
 end

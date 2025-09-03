@@ -4,7 +4,7 @@ defmodule BackWeb.AutomatonController do
   alias Back.Automatons
   alias Back.Automatons.Automaton
   alias Back.Automatons.AutomatonTags
-  alias Back.Data.{Files, Image}
+  alias Back.Data.Image
 
   action_fallback BackWeb.FallbackController
 
@@ -62,34 +62,16 @@ defmodule BackWeb.AutomatonController do
       end
       |> decode_base64_fields()
 
-    files =
-      case Map.get(automaton_params, "file") do
-        %{} = map -> Map.values(map)
-        list when is_list(list) -> list
-        %Plug.Upload{} = upload -> [upload]
-        _ -> []
-      end
-      |> decode_base64_fields()
-
     automaton_params =
       automaton_params
       |> Map.put("image", images)
-      |> Map.put("file", files)
 
     with {:ok, %Automaton{} = automaton} <- Automatons.create_automaton(automaton_params) do
       {res, img} = Image.get_image_automaton_id(automaton.automaton_id)
-      {resf, files} = Files.get_file_automaton_id(automaton.automaton_id)
 
       automaton =
         if res == :ok do
           Map.put(automaton, :image, img)
-        else
-          automaton
-        end
-
-      automaton =
-        if resf == :ok do
-          Map.put(automaton, :file, files)
         else
           automaton
         end
@@ -133,19 +115,6 @@ defmodule BackWeb.AutomatonController do
   def get_recents(conn, %{"nb" => nb}) do
     automaton = Automatons.get_recents!(nb)
     render(conn, :index_date, automaton: automaton)
-  end
-
-  def get_files(conn, %{"id" => id}) do
-    automaton = Automatons.get_automaton!(id)
-    files = Files.get_file_automaton_id(automaton.automaton_id)
-
-    case files do
-      {:ok, file} ->
-        render(conn, :show_files, automaton: automaton, files: file)
-
-      {:none, _} ->
-        render(conn, :show_files, automaton: automaton, files: [])
-    end
   end
 
   defp decode_base64_fields(list) when is_list(list) do

@@ -6,7 +6,7 @@ config :back, Back.Repo,
   password: System.get_env("DB_PASSWORD"),
   hostname: System.get_env("DB_HOST"),
   database: System.get_env("DB_NAME"),
-  url: System.get_env("DATABASE_URL"),
+  # url: System.get_env("DATABASE_URL"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

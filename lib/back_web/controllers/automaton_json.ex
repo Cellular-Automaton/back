@@ -15,7 +15,8 @@ defmodule BackWeb.AutomatonJSON do
       name: automaton.name,
       description: automaton.description,
       tags: Map.get(automaton, :tags, []),
-      image: Map.get(automaton, :image, nil)
+      image: Map.get(automaton, :image, nil),
+      assets_link: automaton.assets_link
     }
   end
 
@@ -31,7 +32,8 @@ defmodule BackWeb.AutomatonJSON do
       automaton_id: automaton.automaton_id,
       contents: automaton.contents,
       name: automaton.name,
-      description: automaton.description
+      description: automaton.description,
+      assets_link: automaton.assets_link
     }
   end
 
@@ -57,7 +59,8 @@ defmodule BackWeb.AutomatonJSON do
       description: automaton.description,
       image: automaton.image,
       tags: tags,
-      file: automaton.file
+      file: automaton.file,
+      assets_link: automaton.assets_link
     }
   end
 
@@ -82,7 +85,8 @@ defmodule BackWeb.AutomatonJSON do
       name: automaton.name,
       description: automaton.description,
       inserted_at: automaton.inserted_at,
-      updated_at: automaton.updated_at
+      updated_at: automaton.updated_at,
+      assets_link: automaton.assets_link
     }
   end
 end
