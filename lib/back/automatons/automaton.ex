@@ -9,9 +9,9 @@ defmodule Back.Automatons.Automaton do
     field :contents, :string
     field :posted_by, :id
     field :viewed_by, :id
+    field :assets_link, :string
 
     has_many :image, Back.Data.Image.Images, foreign_key: :automaton_id
-    has_many :file, Back.Data.Files.File, foreign_key: :automaton_id
 
     timestamps(type: :utc_datetime)
   end
@@ -19,7 +19,7 @@ defmodule Back.Automatons.Automaton do
   @doc false
   def changeset(automaton, attrs) do
     automaton
-    |> cast(attrs, [:contents, :name, :description])
+    |> cast(attrs, [:contents, :name, :description, :assets_link])
     |> validate_required([:contents, :name, :description])
   end
 end

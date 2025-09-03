@@ -5,7 +5,8 @@ defmodule BackWeb.AuthJSON do
       user: %{
         mail: user.email,
         username: user.username,
-        id: user.user_id
+        id: user.user_id,
+        role: user.user_role
       }
     }
   end
