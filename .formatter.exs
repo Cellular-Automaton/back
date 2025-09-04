@@ -1,5 +1,9 @@
 [
   import_deps: [:ecto, :ecto_sql, :phoenix],
   subdirectories: ["priv/*/migrations"],
-  inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}", "priv/*/seeds.exs"]
+  inputs:
+    Enum.flat_map(
+      ["{mix,.formatter}.exs", "{config,lib,test}/**/*.{ex,exs}"],
+      &Path.wildcard(&1, match_dot: true)
+    ) -- [".env.dev.exs"]
 ]
