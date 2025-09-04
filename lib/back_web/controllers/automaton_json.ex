@@ -59,7 +59,6 @@ defmodule BackWeb.AutomatonJSON do
       description: automaton.description,
       image: automaton.image,
       tags: tags,
-      file: automaton.file,
       assets_link: automaton.assets_link
     }
   end
