@@ -7,7 +7,7 @@ defmodule Back.Repo.Migrations.CreateVisuals do
       add :name, :string
       add :description, :string
       add :assets_link, :string
-      add :posted_by, references(:"user:user_id", on_delete: :nothing, type: :binary_id)
+      add :posted_by, references(:user, on_delete: :nothing, type: :binary, column: :user_id)
 
       timestamps(type: :utc_datetime)
     end

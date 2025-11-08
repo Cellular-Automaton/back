@@ -3,12 +3,11 @@ defmodule Back.Visuals.Visual do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
   schema "visuals" do
     field :name, :string
     field :description, :string
     field :assets_link, :string
-    field :posted_by, :binary_id
+    field :posted_by, :id
 
     timestamps(type: :utc_datetime)
   end
