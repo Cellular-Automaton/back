@@ -11,7 +11,6 @@ defmodule Back.AutomatonsFixtures do
     {:ok, automaton} =
       attrs
       |> Enum.into(%{
-        automaton_id: "some automaton_id",
         contents: "some contents",
         description: "some description",
         name: "some name"
@@ -19,5 +18,19 @@ defmodule Back.AutomatonsFixtures do
       |> Back.Automatons.create_automaton()
 
     automaton
+  end
+
+  def automaton_fixture_preload(attrs \\ %{}) do
+    {:ok, automaton} =
+      attrs
+      |> Enum.into(%{
+        contents: "some contents",
+        description: "some description",
+        name: "some name"
+      })
+      |> Back.Automatons.create_automaton()
+
+    automaton
+    |> Back.Repo.preload([:image])
   end
 end

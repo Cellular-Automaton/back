@@ -24,25 +24,24 @@ defmodule Back.UsersTest do
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Users.get_user!(user.id) == user
+      assert Users.get_user!(user.user_id) == user
     end
 
     test "create_user/1 with valid data creates a user" do
       valid_attrs = %{
         username: "some username",
-        user_id: "some user_id",
+        user_role: "user",
+        password: "passw",
         email: "some email",
         phone: "some phone",
-        created_at: "some created_at",
         verified: true
       }
 
       assert {:ok, %User{} = user} = Users.create_user(valid_attrs)
       assert user.username == "some username"
-      assert user.user_id == "some user_id"
+      assert Ecto.UUID.cast(user.user_id) == {:ok, user.user_id}
       assert user.email == "some email"
       assert user.phone == "some phone"
-      assert user.created_at == "some created_at"
       assert user.verified == true
     end
 
@@ -55,32 +54,29 @@ defmodule Back.UsersTest do
 
       update_attrs = %{
         username: "some updated username",
-        user_id: "some updated user_id",
         email: "some updated email",
         phone: "some updated phone",
-        created_at: "some updated created_at",
         verified: false
       }
 
       assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
       assert user.username == "some updated username"
-      assert user.user_id == "some updated user_id"
+      assert Ecto.UUID.cast(user.user_id) == {:ok, user.user_id}
       assert user.email == "some updated email"
       assert user.phone == "some updated phone"
-      assert user.created_at == "some updated created_at"
       assert user.verified == false
     end
 
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Users.update_user(user, @invalid_attrs)
-      assert user == Users.get_user!(user.id)
+      assert user == Users.get_user!(user.user_id)
     end
 
     test "delete_user/1 deletes the user" do
       user = user_fixture()
       assert {:ok, %User{}} = Users.delete_user(user)
-      assert_raise Ecto.NoResultsError, fn -> Users.get_user!(user.id) end
+      assert_raise Ecto.NoResultsError, fn -> Users.get_user!(user.user_id) end
     end
 
     test "change_user/1 returns a user changeset" do
@@ -110,25 +106,28 @@ defmodule Back.UsersTest do
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Users.get_user!(user.id) == user
+      assert Users.get_user!(user.user_id) == user
     end
 
     test "create_user/1 with valid data creates a user" do
+      now = DateTime.utc_now() |> DateTime.truncate(:second)
+
       valid_attrs = %{
         username: "some username",
-        user_id: "some user_id",
+        user_role: "user",
+        password: "passw",
         email: "some email",
         phone: "some phone",
-        created_at: "some created_at",
+        created_at: now,
         verified: true
       }
 
       assert {:ok, %User{} = user} = Users.create_user(valid_attrs)
       assert user.username == "some username"
-      assert user.user_id == "some user_id"
+      assert Ecto.UUID.cast(user.user_id) == {:ok, user.user_id}
       assert user.email == "some email"
       assert user.phone == "some phone"
-      assert user.created_at == "some created_at"
+      assert user.created_at == now
       assert user.verified == true
     end
 
@@ -138,35 +137,35 @@ defmodule Back.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
+      now = DateTime.utc_now() |> DateTime.truncate(:second)
 
       update_attrs = %{
         username: "some updated username",
-        user_id: "some updated user_id",
         email: "some updated email",
         phone: "some updated phone",
-        created_at: "some updated created_at",
+        created_at: now,
         verified: false
       }
 
       assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
       assert user.username == "some updated username"
-      assert user.user_id == "some updated user_id"
+      assert Ecto.UUID.cast(user.user_id) == {:ok, user.user_id}
       assert user.email == "some updated email"
       assert user.phone == "some updated phone"
-      assert user.created_at == "some updated created_at"
+      assert user.created_at == now
       assert user.verified == false
     end
 
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Users.update_user(user, @invalid_attrs)
-      assert user == Users.get_user!(user.id)
+      assert user == Users.get_user!(user.user_id)
     end
 
     test "delete_user/1 deletes the user" do
       user = user_fixture()
       assert {:ok, %User{}} = Users.delete_user(user)
-      assert_raise Ecto.NoResultsError, fn -> Users.get_user!(user.id) end
+      assert_raise Ecto.NoResultsError, fn -> Users.get_user!(user.user_id) end
     end
 
     test "change_user/1 returns a user changeset" do

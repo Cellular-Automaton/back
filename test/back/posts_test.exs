@@ -26,7 +26,7 @@ defmodule Back.PostsTest do
 
     test "get_post!/1 returns the post with given id" do
       post = post_fixture()
-      assert Posts.get_post!(post.id) == post
+      assert Posts.get_post!(post.post_id) == post
     end
 
     test "create_post/1 with valid data creates a post" do
@@ -43,7 +43,7 @@ defmodule Back.PostsTest do
 
       assert {:ok, %Post{} = post} = Posts.create_post(valid_attrs)
       assert post.title == "some title"
-      assert post.post_id == "some post_id"
+      assert Ecto.UUID.cast(post.post_id) == {:ok, post.post_id}
       assert post.edited == true
       assert post.contents == "some contents"
       # assert post.posted_by == "some posted_by"
@@ -72,7 +72,7 @@ defmodule Back.PostsTest do
 
       assert {:ok, %Post{} = post} = Posts.update_post(post, update_attrs)
       assert post.title == "some updated title"
-      assert post.post_id == "some updated post_id"
+      assert Ecto.UUID.cast(post.post_id) == {:ok, post.post_id}
       assert post.edited == false
       assert post.contents == "some updated contents"
       # assert post.posted_by == "some updated posted_by"
@@ -84,13 +84,13 @@ defmodule Back.PostsTest do
     test "update_post/2 with invalid data returns error changeset" do
       post = post_fixture()
       assert {:error, %Ecto.Changeset{}} = Posts.update_post(post, @invalid_attrs)
-      assert post == Posts.get_post!(post.id)
+      assert post == Posts.get_post!(post.post_id)
     end
 
     test "delete_post/1 deletes the post" do
       post = post_fixture()
       assert {:ok, %Post{}} = Posts.delete_post(post)
-      assert_raise Ecto.NoResultsError, fn -> Posts.get_post!(post.id) end
+      assert_raise Ecto.NoResultsError, fn -> Posts.get_post!(post.post_id) end
     end
 
     test "change_post/1 returns a post changeset" do

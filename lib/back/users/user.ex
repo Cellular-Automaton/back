@@ -10,7 +10,7 @@ defmodule Back.Users.User do
     field :email, :string
     field :password, :string
     field :phone, :string
-    field :created_at, :utc_datetime
+    field :created_at, :utc_datetime, default: DateTime.utc_now() |> DateTime.truncate(:second)
     field :verified, :boolean, default: false
     field :user_role, :string
 
@@ -22,7 +22,16 @@ defmodule Back.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:user_id, :username, :email, :phone, :verified, :user_role, :password])
+    |> cast(attrs, [
+      :user_id,
+      :username,
+      :email,
+      :phone,
+      :verified,
+      :user_role,
+      :password,
+      :created_at
+    ])
     |> validate_required([:username, :email, :user_role, :password])
     |> unique_constraint([:email], name: :user_email_index)
     |> unique_constraint([:username], name: :user_username_index)

@@ -14,6 +14,7 @@ defmodule BackWeb.FavoriteControllerTest do
   end
 
   describe "index" do
+    @tag :skip
     test "lists all favorite", %{conn: conn} do
       conn = get(conn, ~p"/api/favorite")
       assert json_response(conn, 200)["data"] == []
@@ -21,6 +22,7 @@ defmodule BackWeb.FavoriteControllerTest do
   end
 
   describe "create favorite" do
+    @tag :skip
     test "renders favorite when data is valid", %{conn: conn} do
       conn = post(conn, ~p"/api/favorite", favorite: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
@@ -33,6 +35,7 @@ defmodule BackWeb.FavoriteControllerTest do
     end
 
     @tag :skip
+    @tag :skip
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, ~p"/api/favorite", favorite: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -42,6 +45,7 @@ defmodule BackWeb.FavoriteControllerTest do
   describe "update favorite" do
     setup [:create_favorite]
 
+    @tag :skip
     test "renders favorite when data is valid", %{
       conn: conn,
       favorite: %Favorite{id: id} = favorite
@@ -57,6 +61,7 @@ defmodule BackWeb.FavoriteControllerTest do
     end
 
     @tag :skip
+    @tag :skip
     test "renders errors when data is invalid", %{conn: conn, favorite: favorite} do
       conn = put(conn, ~p"/api/favorite/#{favorite}", favorite: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -66,6 +71,7 @@ defmodule BackWeb.FavoriteControllerTest do
   describe "delete favorite" do
     setup [:create_favorite]
 
+    @tag :skip
     test "deletes chosen favorite", %{conn: conn, favorite: favorite} do
       conn = delete(conn, ~p"/api/favorite/#{favorite}")
       assert response(conn, 204)

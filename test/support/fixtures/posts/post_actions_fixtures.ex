@@ -11,7 +11,7 @@ defmodule Back.Posts.PostActionsFixtures do
     {:ok, post_actions} =
       attrs
       |> Enum.into(%{
-        action: "some action"
+        action: "liked"
       })
       |> Back.Posts.PostActions.create_post_actions()
 

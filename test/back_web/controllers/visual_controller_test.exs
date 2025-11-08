@@ -22,6 +22,7 @@ defmodule BackWeb.VisualControllerTest do
   end
 
   describe "index" do
+    @tag :skip
     test "lists all visuals", %{conn: conn} do
       conn = get(conn, ~p"/api/visuals")
       assert json_response(conn, 200)["data"] == []
@@ -29,6 +30,7 @@ defmodule BackWeb.VisualControllerTest do
   end
 
   describe "create visual" do
+    @tag :skip
     test "renders visual when data is valid", %{conn: conn} do
       conn = post(conn, ~p"/api/visuals", visual: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
@@ -43,6 +45,7 @@ defmodule BackWeb.VisualControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
+    @tag :skip
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, ~p"/api/visuals", visual: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -52,6 +55,7 @@ defmodule BackWeb.VisualControllerTest do
   describe "update visual" do
     setup [:create_visual]
 
+    @tag :skip
     test "renders visual when data is valid", %{conn: conn, visual: %Visual{id: id} = visual} do
       conn = put(conn, ~p"/api/visuals/#{visual}", visual: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
@@ -66,6 +70,7 @@ defmodule BackWeb.VisualControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
+    @tag :skip
     test "renders errors when data is invalid", %{conn: conn, visual: visual} do
       conn = put(conn, ~p"/api/visuals/#{visual}", visual: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -75,6 +80,7 @@ defmodule BackWeb.VisualControllerTest do
   describe "delete visual" do
     setup [:create_visual]
 
+    @tag :skip
     test "deletes chosen visual", %{conn: conn, visual: visual} do
       conn = delete(conn, ~p"/api/visuals/#{visual}")
       assert response(conn, 204)

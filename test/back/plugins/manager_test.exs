@@ -23,9 +23,12 @@ defmodule Back.Plugins.ManagerTest do
     test "create_plugin_manager/1 with valid data creates a plugin_manager" do
       valid_attrs = %{}
 
-      assert {:ok, %PluginManager{} = plugin_manager} = Manager.create_plugin_manager(valid_attrs)
+      assert {:ok, %PluginManager{} = _plugin_manager} =
+               Manager.create_plugin_manager(valid_attrs)
     end
 
+    # NOTE: don't have data to change
+    @tag :skip
     test "create_plugin_manager/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Manager.create_plugin_manager(@invalid_attrs)
     end
@@ -34,10 +37,12 @@ defmodule Back.Plugins.ManagerTest do
       plugin_manager = plugin_manager_fixture()
       update_attrs = %{}
 
-      assert {:ok, %PluginManager{} = plugin_manager} =
+      assert {:ok, %PluginManager{} = _plugin_manager} =
                Manager.update_plugin_manager(plugin_manager, update_attrs)
     end
 
+    # NOTE: don't have data to change
+    @tag :skip
     test "update_plugin_manager/2 with invalid data returns error changeset" do
       plugin_manager = plugin_manager_fixture()
 

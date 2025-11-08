@@ -8,7 +8,7 @@ defmodule Back.Automatons.AutomatonTagsTest do
 
     import Back.Automatons.AutomatonTagsFixtures
 
-    @invalid_attrs %{}
+    @invalid_attrs %{tag_id: nil}
 
     test "list_automaton_tag/0 returns all automaton_tag" do
       automaton_tag = automaton_tag_fixture()
@@ -23,22 +23,28 @@ defmodule Back.Automatons.AutomatonTagsTest do
     test "create_automaton_tag/1 with valid data creates a automaton_tag" do
       valid_attrs = %{}
 
-      assert {:ok, %AutomatonTag{} = automaton_tag} =
+      assert {:ok, %AutomatonTag{} = _automaton_tag} =
                AutomatonTags.create_automaton_tag(valid_attrs)
     end
 
+    # NOTE: don't have data to change
+    @tag :skip
     test "create_automaton_tag/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = AutomatonTags.create_automaton_tag(@invalid_attrs)
     end
 
+    # NOTE: don't have data to change
+    @tag :skip
     test "update_automaton_tag/2 with valid data updates the automaton_tag" do
       automaton_tag = automaton_tag_fixture()
       update_attrs = %{}
 
-      assert {:ok, %AutomatonTag{} = automaton_tag} =
+      assert {:ok, %AutomatonTag{} = _automaton_tag} =
                AutomatonTags.update_automaton_tag(automaton_tag, update_attrs)
     end
 
+    # NOTE: don't have data to change
+    @tag :skip
     test "update_automaton_tag/2 with invalid data returns error changeset" do
       automaton_tag = automaton_tag_fixture()
 

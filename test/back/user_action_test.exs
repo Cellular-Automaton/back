@@ -17,7 +17,7 @@ defmodule Back.UserActionTest do
 
     test "get_blocked!/1 returns the blocked with given id" do
       blocked = blocked_fixture()
-      assert UserAction.get_blocked!(blocked.id) == blocked
+      assert UserAction.get_blocked!(blocked.blocked_id) == blocked
     end
 
     test "create_blocked/1 with valid data creates a blocked" do
@@ -28,7 +28,7 @@ defmodule Back.UserActionTest do
       }
 
       assert {:ok, %Blocked{} = blocked} = UserAction.create_blocked(valid_attrs)
-      assert blocked.blocked_id == "some blocked_id"
+      assert Ecto.UUID.cast(blocked.blocked_id) == {:ok, blocked.blocked_id}
       assert blocked.time_unblock == ~N[2025-04-15 18:04:00]
       assert blocked.blocked_at == ~N[2025-04-15 18:04:00]
     end
@@ -47,7 +47,7 @@ defmodule Back.UserActionTest do
       }
 
       assert {:ok, %Blocked{} = blocked} = UserAction.update_blocked(blocked, update_attrs)
-      assert blocked.blocked_id == "some updated blocked_id"
+      assert Ecto.UUID.cast(blocked.blocked_id) == {:ok, blocked.blocked_id}
       assert blocked.time_unblock == ~N[2025-04-16 18:04:00]
       assert blocked.blocked_at == ~N[2025-04-16 18:04:00]
     end
@@ -55,13 +55,13 @@ defmodule Back.UserActionTest do
     test "update_blocked/2 with invalid data returns error changeset" do
       blocked = blocked_fixture()
       assert {:error, %Ecto.Changeset{}} = UserAction.update_blocked(blocked, @invalid_attrs)
-      assert blocked == UserAction.get_blocked!(blocked.id)
+      assert blocked == UserAction.get_blocked!(blocked.blocked_id)
     end
 
     test "delete_blocked/1 deletes the blocked" do
       blocked = blocked_fixture()
       assert {:ok, %Blocked{}} = UserAction.delete_blocked(blocked)
-      assert_raise Ecto.NoResultsError, fn -> UserAction.get_blocked!(blocked.id) end
+      assert_raise Ecto.NoResultsError, fn -> UserAction.get_blocked!(blocked.blocked_id) end
     end
 
     test "change_blocked/1 returns a blocked changeset" do
