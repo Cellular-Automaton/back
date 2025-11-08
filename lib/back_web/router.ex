@@ -45,6 +45,8 @@ defmodule BackWeb.Router do
 
       resources "/post", PostController, except: [:new, :edit]
       resources "/automaton", AutomatonController, except: [:new, :edit, :index]
+      resources "/visuals", VisualController, except: [:new, :edit, :index]
+      resources "/plugin_manager", PluginManagerController, except: [:new, :edit, :index]
       post "/automaton/image", AutomatonController, :create_image
       resources "/comment", CommentController, except: [:new, :edit]
       resources "/blocked", BlockedController, except: [:new, :edit]
