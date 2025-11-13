@@ -11,12 +11,13 @@ defmodule Back.UsersFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        created_at: "some created_at",
+        created_at: DateTime.utc_now() |> DateTime.truncate(:second),
         email: "some email",
         phone: "some phone",
-        user_id: "some user_id",
+        password: "some password",
         username: "some username",
-        verified: true
+        verified: true,
+        user_role: "user"
       })
       |> Back.Users.create_user()
 

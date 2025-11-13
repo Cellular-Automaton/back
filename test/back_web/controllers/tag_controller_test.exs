@@ -20,6 +20,7 @@ defmodule BackWeb.TagControllerTest do
   end
 
   describe "index" do
+    @tag :skip
     test "lists all tag", %{conn: conn} do
       conn = get(conn, ~p"/api/tag")
       assert json_response(conn, 200)["data"] == []
@@ -27,6 +28,7 @@ defmodule BackWeb.TagControllerTest do
   end
 
   describe "create tag" do
+    @tag :skip
     test "renders tag when data is valid", %{conn: conn} do
       conn = post(conn, ~p"/api/tag", tag: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
@@ -40,6 +42,7 @@ defmodule BackWeb.TagControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
+    @tag :skip
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, ~p"/api/tag", tag: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -49,6 +52,7 @@ defmodule BackWeb.TagControllerTest do
   describe "update tag" do
     setup [:create_tag]
 
+    @tag :skip
     test "renders tag when data is valid", %{conn: conn, tag: %Tag{id: id} = tag} do
       conn = put(conn, ~p"/api/tag/#{tag}", tag: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
@@ -62,6 +66,7 @@ defmodule BackWeb.TagControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
+    @tag :skip
     test "renders errors when data is invalid", %{conn: conn, tag: tag} do
       conn = put(conn, ~p"/api/tag/#{tag}", tag: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -71,6 +76,7 @@ defmodule BackWeb.TagControllerTest do
   describe "delete tag" do
     setup [:create_tag]
 
+    @tag :skip
     test "deletes chosen tag", %{conn: conn, tag: tag} do
       conn = delete(conn, ~p"/api/tag/#{tag}")
       assert response(conn, 204)

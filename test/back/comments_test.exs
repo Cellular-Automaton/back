@@ -17,14 +17,14 @@ defmodule Back.CommentsTest do
 
     test "get_comment!/1 returns the comment with given id" do
       comment = comment_fixture()
-      assert Comments.get_comment!(comment.id) == comment
+      assert Comments.get_comment!(comment.comment_id) == comment
     end
 
     test "create_comment/1 with valid data creates a comment" do
       valid_attrs = %{comment_id: "some comment_id", edited: true, contents: "some contents"}
 
       assert {:ok, %Comment{} = comment} = Comments.create_comment(valid_attrs)
-      assert comment.comment_id == "some comment_id"
+      assert Ecto.UUID.cast(comment.comment_id) == {:ok, comment.comment_id}
       assert comment.edited == true
       assert comment.contents == "some contents"
     end
@@ -43,7 +43,7 @@ defmodule Back.CommentsTest do
       }
 
       assert {:ok, %Comment{} = comment} = Comments.update_comment(comment, update_attrs)
-      assert comment.comment_id == "some updated comment_id"
+      assert Ecto.UUID.cast(comment.comment_id) == {:ok, comment.comment_id}
       assert comment.edited == false
       assert comment.contents == "some updated contents"
     end
@@ -51,13 +51,13 @@ defmodule Back.CommentsTest do
     test "update_comment/2 with invalid data returns error changeset" do
       comment = comment_fixture()
       assert {:error, %Ecto.Changeset{}} = Comments.update_comment(comment, @invalid_attrs)
-      assert comment == Comments.get_comment!(comment.id)
+      assert comment == Comments.get_comment!(comment.comment_id)
     end
 
     test "delete_comment/1 deletes the comment" do
       comment = comment_fixture()
       assert {:ok, %Comment{}} = Comments.delete_comment(comment)
-      assert_raise Ecto.NoResultsError, fn -> Comments.get_comment!(comment.id) end
+      assert_raise Ecto.NoResultsError, fn -> Comments.get_comment!(comment.comment_id) end
     end
 
     test "change_comment/1 returns a comment changeset" do

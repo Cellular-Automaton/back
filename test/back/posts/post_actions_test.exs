@@ -4,7 +4,7 @@ defmodule Back.Posts.PostActionsTest do
   alias Back.Posts.PostActions
 
   describe "posts_actions" do
-    alias Back.Posts.PostActions.PostActions
+    alias Back.Posts.PostActions.PostAction
 
     import Back.Posts.PostActionsFixtures
 
@@ -21,10 +21,10 @@ defmodule Back.Posts.PostActionsTest do
     end
 
     test "create_post_actions/1 with valid data creates a post_actions" do
-      valid_attrs = %{action: "some action"}
+      valid_attrs = %{action: "liked"}
 
-      assert {:ok, %PostActions{} = post_actions} = PostActions.create_post_actions(valid_attrs)
-      assert post_actions.action == "some action"
+      assert {:ok, %PostAction{} = post_actions} = PostActions.create_post_actions(valid_attrs)
+      assert post_actions.action == "liked"
     end
 
     test "create_post_actions/1 with invalid data returns error changeset" do
@@ -33,12 +33,12 @@ defmodule Back.Posts.PostActionsTest do
 
     test "update_post_actions/2 with valid data updates the post_actions" do
       post_actions = post_actions_fixture()
-      update_attrs = %{action: "some updated action"}
+      update_attrs = %{action: "disliked"}
 
-      assert {:ok, %PostActions{} = post_actions} =
+      assert {:ok, %PostAction{} = post_actions} =
                PostActions.update_post_actions(post_actions, update_attrs)
 
-      assert post_actions.action == "some updated action"
+      assert post_actions.action == "disliked"
     end
 
     test "update_post_actions/2 with invalid data returns error changeset" do
@@ -52,7 +52,7 @@ defmodule Back.Posts.PostActionsTest do
 
     test "delete_post_actions/1 deletes the post_actions" do
       post_actions = post_actions_fixture()
-      assert {:ok, %PostActions{}} = PostActions.delete_post_actions(post_actions)
+      assert {:ok, %PostAction{}} = PostActions.delete_post_actions(post_actions)
       assert_raise Ecto.NoResultsError, fn -> PostActions.get_post_actions!(post_actions.id) end
     end
 

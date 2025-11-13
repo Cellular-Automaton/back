@@ -1,0 +1,17 @@
+defmodule Back.Repo.Migrations.CreateVisuals do
+  use Ecto.Migration
+
+  def change do
+    create table(:visuals, primary_key: false) do
+      add :id, :binary_id, primary_key: true
+      add :name, :string
+      add :description, :string
+      add :assets_link, :string
+      add :posted_by, references(:user, on_delete: :nothing, type: :binary, column: :user_id)
+
+      timestamps(type: :utc_datetime)
+    end
+
+    create index(:visuals, [:posted_by])
+  end
+end

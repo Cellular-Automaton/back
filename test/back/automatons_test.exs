@@ -16,8 +16,8 @@ defmodule Back.AutomatonsTest do
     end
 
     test "get_automaton!/1 returns the automaton with given id" do
-      automaton = automaton_fixture()
-      assert Automatons.get_automaton!(automaton.id) == automaton
+      automaton = automaton_fixture_preload()
+      assert Automatons.get_automaton!(automaton.automaton_id) == automaton
     end
 
     test "create_automaton/1 with valid data creates a automaton" do
@@ -31,7 +31,7 @@ defmodule Back.AutomatonsTest do
       assert {:ok, %Automaton{} = automaton} = Automatons.create_automaton(valid_attrs)
       assert automaton.name == "some name"
       assert automaton.description == "some description"
-      assert automaton.automaton_id == "some automaton_id"
+      assert Ecto.UUID.cast(automaton.automaton_id) == {:ok, automaton.automaton_id}
       assert automaton.contents == "some contents"
     end
 
@@ -54,20 +54,23 @@ defmodule Back.AutomatonsTest do
 
       assert automaton.name == "some updated name"
       assert automaton.description == "some updated description"
-      assert automaton.automaton_id == "some updated automaton_id"
+      assert Ecto.UUID.cast(automaton.automaton_id) == {:ok, automaton.automaton_id}
       assert automaton.contents == "some updated contents"
     end
 
     test "update_automaton/2 with invalid data returns error changeset" do
-      automaton = automaton_fixture()
+      automaton = automaton_fixture_preload()
       assert {:error, %Ecto.Changeset{}} = Automatons.update_automaton(automaton, @invalid_attrs)
-      assert automaton == Automatons.get_automaton!(automaton.id)
+      assert automaton == Automatons.get_automaton!(automaton.automaton_id)
     end
 
     test "delete_automaton/1 deletes the automaton" do
       automaton = automaton_fixture()
       assert {:ok, %Automaton{}} = Automatons.delete_automaton(automaton)
-      assert_raise Ecto.NoResultsError, fn -> Automatons.get_automaton!(automaton.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Automatons.get_automaton!(automaton.automaton_id)
+      end
     end
 
     test "change_automaton/1 returns a automaton changeset" do
