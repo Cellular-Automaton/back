@@ -19,7 +19,7 @@ defmodule Back.Automatons.Automaton do
   @doc false
   def changeset(automaton, attrs) do
     automaton
-    |> cast(attrs, [:contents, :name, :description, :assets_link])
+    |> cast(attrs, [:contents, :name, :description, :assets_link, :posted_by])
     |> validate_required([:contents, :name, :description])
   end
 end

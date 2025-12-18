@@ -14,7 +14,7 @@ defmodule Back.Plugins.Manager.PluginManager do
   @doc false
   def changeset(plugin_manager, attrs) do
     plugin_manager
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:automaton, :visual])
+    |> validate_required([:automaton, :visual])
   end
 end
