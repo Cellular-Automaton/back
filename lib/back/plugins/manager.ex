@@ -6,7 +6,10 @@ defmodule Back.Plugins.Manager do
   import Ecto.Query, warn: false
   alias Back.Repo
 
+  alias Back.Automatons.Automaton
   alias Back.Plugins.Manager.PluginManager
+  alias Back.Visuals.Visual
+  alias Back.Users.User
 
   @doc """
   Returns the list of plugin_manager.
@@ -100,5 +103,58 @@ defmodule Back.Plugins.Manager do
   """
   def change_plugin_manager(%PluginManager{} = plugin_manager, attrs \\ %{}) do
     PluginManager.changeset(plugin_manager, attrs)
+  end
+
+  def get_visuals_by_automaton_id!(id) do
+    query =
+      from pm in PluginManager,
+        join: v in Visual,
+        on: v.id == pm.visual,
+        left_join: u in User,
+        on: v.posted_by == u.user_id,
+        where: pm.automaton == ^id,
+        select: %{
+          id: v.id,
+          name: v.name,
+          description: v.description,
+          assets_link: v.assets_link,
+          posted_by: %{
+            user_id: u.user_id,
+            username: u.username,
+            email: u.email,
+            phone: u.phone,
+            created_at: u.created_at,
+            user_role: u.user_role
+          }
+        }
+
+    Repo.all(query)
+  end
+
+  def get_automaton_by_visuals_id!(id) do
+    query =
+      from pm in PluginManager,
+        join: a in Automaton,
+        on: a.automaton_id == pm.automaton,
+        left_join: u in User,
+        on: a.posted_by == u.user_id,
+        where: pm.visual == ^id,
+        select: %{
+          id: a.automaton_id,
+          name: a.name,
+          description: a.description,
+          contents: a.contents,
+          assets_link: a.assets_link,
+          posted_by: %{
+            user_id: u.user_id,
+            username: u.username,
+            email: u.email,
+            phone: u.phone,
+            created_at: u.created_at,
+            user_role: u.user_role
+          }
+        }
+
+    Repo.all(query)
   end
 end

@@ -29,6 +29,8 @@ defmodule BackWeb.Router do
     get "/automaton/images/:id", AutomatonController, :show_img
     get "/automaton/recent/:nb", AutomatonController, :get_recents
     get "/automaton_comment/automaton/:id", AutomatonCommentsController, :get_by_automaton
+    get "/plugin_manager/automaton/:id", PluginManagerController, :show_visuals
+    get "/plugin_manager/visual/:id", PluginManagerController, :show_automatons
 
     # user
     get "/user/pictures", UserController, :index_pic
@@ -45,8 +47,8 @@ defmodule BackWeb.Router do
 
       resources "/post", PostController, except: [:new, :edit]
       resources "/automaton", AutomatonController, except: [:new, :edit, :index]
-      resources "/visuals", VisualController, except: [:new, :edit, :index]
-      resources "/plugin_manager", PluginManagerController, except: [:new, :edit, :index]
+      resources "/visuals", VisualController, except: [:new, :edit]
+      resources "/plugin_manager", PluginManagerController, except: [:new, :edit, :index, :show]
       post "/automaton/image", AutomatonController, :create_image
       resources "/comment", CommentController, except: [:new, :edit]
       resources "/blocked", BlockedController, except: [:new, :edit]

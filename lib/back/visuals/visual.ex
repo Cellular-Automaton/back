@@ -15,7 +15,7 @@ defmodule Back.Visuals.Visual do
   @doc false
   def changeset(visual, attrs) do
     visual
-    |> cast(attrs, [:name, :description, :assets_link])
+    |> cast(attrs, [:name, :description, :assets_link, :posted_by])
     |> validate_required([:name, :description, :assets_link])
   end
 end
