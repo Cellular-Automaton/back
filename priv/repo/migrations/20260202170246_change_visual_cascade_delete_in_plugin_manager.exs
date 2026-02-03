@@ -3,6 +3,7 @@ defmodule Back.Repo.Migrations.ChangeVisualCascadeDeleteInPluginManager do
 
   def up do
     drop constraint(:plugin_manager, "plugin_manager_visual_fkey")
+
     alter table(:plugin_manager) do
       modify :visual, references(:visuals, on_delete: :delete_all, type: :binary_id)
     end
