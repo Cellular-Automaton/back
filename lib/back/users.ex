@@ -52,8 +52,6 @@ defmodule Back.Users do
 
   """
   def create_user(attrs \\ %{}) do
-    IO.inspect(attrs, label: "Creating user with attrs")
-
     # note: create user first, then add user_id to image
 
     {res, user} =

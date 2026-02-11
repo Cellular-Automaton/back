@@ -11,6 +11,21 @@ defmodule Back.MixProject do
       aliases: aliases(),
       deps: deps(),
 
+      # tests
+      test_coverage: [
+        tool: ExCoveralls,
+        ignore_modules: [
+          ~r/\.BackWeb\./
+        ],
+        export: "cov_report"
+      ],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.html": :test,
+        "coveralls.json": :test
+      ],
+
       # Docs
       name: "CAMI-Back",
       source_url: "https://github.com/Cellular-Automaton/back",
@@ -63,7 +78,8 @@ defmodule Back.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:excoveralls, "~> 0.18", only: :test}
     ]
   end
 
