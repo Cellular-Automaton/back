@@ -8,16 +8,27 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: back_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      MIX_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/my_app_test
+
     steps:
       - uses: actions/checkout@v4
       - name: create .env file needed
         run: |
-          echo "System.put_env(\"DATABASE_URL\", \"${{ secrets.DATABASE_URL }}\")" > .env.dev.exs
-          echo "System.put_env(\"DB_USER\", \"${{ secrets.DB_USER }}\")" >> .env.dev.exs
-          echo "System.put_env(\"DB_PASSWORD\", \"${{ secrets.DB_PASSWORD }}\")" >> .env.dev.exs
-          echo "System.put_env(\"DB_NAME\", \"${{ secrets.DB_NAME }}\")" >> .env.dev.exs
-          echo "System.put_env(\"DB_HOST\", \"${{ secrets.DB_HOST }}\")" >> .env.dev.exs
-          echo "System.put_env(\"DB_PORT\", \"${{ secrets.DB_PORT }}\")" >> .env.dev.exs
+          echo "System.put_env(\"DATABASE_URL\", \"${{ env.DATABASE_URL }}\")" > .env.dev.exs
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "27"
@@ -27,11 +38,17 @@ jobs:
           elixir --version
           mix local.hex --force # needed to get phoenix
           mix local.rebar --force # for telemetry
-          mix deps.get
-          # mix setup # should install dependencies and set migrations
+          mix setup # should install dependencies and set migrations
       - name: Check coding style
         run: mix format --check-formatted
       - name: Check if can compile
         run: mix compile
-      # - name: Run tests
-      #   run: mix test
+
+      - name: Run tests
+        run: mix test
+
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     slug: Cellular-Automaton/back
