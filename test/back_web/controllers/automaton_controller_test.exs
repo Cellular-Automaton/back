@@ -24,7 +24,6 @@ defmodule BackWeb.AutomatonControllerTest do
   end
 
   describe "index" do
-    @tag :skip
     test "lists all automaton", %{conn: conn} do
       conn = get(conn, ~p"/api/automaton")
       assert json_response(conn, 200)["data"] == []

@@ -20,6 +20,13 @@ config :back, BackWeb.Endpoint,
   secret_key_base: "i0YecfCJSKiPE86DscrFx0+YAfKJ78rCyRqeWj8XmiLrEynCN1DwKLhbHseJ42se",
   server: false
 
+config :excoveralls, :excoveralls,
+  exclude: [
+    "lib/back_web/**/*",
+    "lib/back_web/controllers/**/*",
+    "test/**/*"
+  ]
+
 # In test we don't send emails
 config :back, Back.Mailer, adapter: Swoosh.Adapters.Test
 

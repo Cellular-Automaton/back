@@ -45,10 +45,15 @@ jobs:
         run: mix compile
 
       - name: Run tests
-        run: mix test
+        run: mix test --cover --export-coverage default
 
-      # - name: Upload coverage reports to Codecov
-      #   uses: codecov/codecov-action@v5
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     slug: Cellular-Automaton/back
+      - name: Generate coverage
+        run: mix coveralls.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: Cellular-Automaton/back
+          files: cover/cov_report.json
+          flags: unittests
